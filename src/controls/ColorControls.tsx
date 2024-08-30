@@ -1,16 +1,15 @@
-import { useAtom } from "jotai";
-import { ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 
-import css from "./Controls.module.css";
+import css from "./ColorControls.module.css";
 import {
+  BLACK,
+  DARK_COLORS,
   LIGHT_COLORS,
   NORMAL_COLORS,
-  DARK_COLORS,
-  Color,
   WHITE,
-  BLACK,
-} from "./constants/colors";
-import { currentColor } from "./state";
+} from "../constants/colors";
+import { useAppState } from "../state/context";
+import type { Color } from "../types";
 
 type ColorControlRowProps = {
   checked: Color;
@@ -65,16 +64,11 @@ function ColorControlRow({
 const groupName = "colors";
 
 export function ColorControls() {
-  const [checked, setChecked] = useAtom(currentColor);
-
-  const onChange = (val: Color) => {
-    setChecked(val);
-  };
-
+  const { currentColor, setCurrentColor } = useAppState();
   const commonProps = {
-    checked,
+    checked: currentColor,
     groupName,
-    onChange,
+    onChange: setCurrentColor,
   };
 
   return (

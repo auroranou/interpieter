@@ -1,7 +1,4 @@
-export type Color = {
-  hex: `#${string}`;
-  label: string;
-};
+import type { Color } from "../types";
 
 export const LIGHT_RED: Color = { hex: "#FFC0C0", label: "Light red" };
 export const LIGHT_YELLOW: Color = { hex: "#FFFFC0", label: "Light yellow" };

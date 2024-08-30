@@ -1,6 +1,7 @@
 import "./App.module.css";
-import { Grid } from "./Grid";
-import { ColorControls } from "./Controls";
+import { ColorControls } from "./controls/ColorControls";
+import { Grid } from "./grid/Grid";
+import { AppProvider } from "./state/context";
 
 function App() {
   return (
@@ -8,8 +9,10 @@ function App() {
       <header>
         <h1>interpieter</h1>
       </header>
-      <Grid />
-      <ColorControls />
+      <AppProvider>
+        <Grid />
+        <ColorControls />
+      </AppProvider>
     </main>
   );
 }
