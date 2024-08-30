@@ -1,0 +1,12 @@
+main {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "grid controls";
+  grid-template-columns: 1fr 1fr;
+  width: 100vw;
+}
+
+header {
+  padding: 12px 48px;
+}

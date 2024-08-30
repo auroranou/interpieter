@@ -1,0 +1,26 @@
+.colorControls {
+  grid-area: controls;
+  margin: 24px 48px 24px 24px;
+}
+
+.colorControlRow {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1em;
+}
+
+.colorControlItem {
+  z-index: 0;
+}
+
+.colorSwatch {
+  border: 1px solid gray;
+  display: inline-block;
+  height: 36px;
+  width: 100%;
+}
+
+.colorControlItem input:checked + label .colorSwatch {
+  box-shadow: 0 0 4px blue;
+  z-index: 1;
+}
