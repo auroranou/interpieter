@@ -2,12 +2,148 @@ import { describe, expect, it } from "vitest";
 
 import * as Colors from "../constants/colors";
 import {
+  findNextColorBlock,
+  getColorBlock,
   getHueChange,
   getLightnessChange,
+  getNeighbor,
   rotateDirPointer,
   toggleCodelChooser,
 } from "./utils";
-import { DOWN, LEFT, RIGHT, UP } from "./types";
+import { Coordinates, DOWN, LEFT, RIGHT, UP } from "./types";
+
+describe("getNeighbor", function () {
+  const grid = [
+    [Colors.GREEN, Colors.YELLOW],
+    [Colors.RED, Colors.BLUE],
+  ];
+
+  it("should return coordinates and color for valid neighbors", function () {
+    expect(getNeighbor(grid, { row: 0, col: 0 }, RIGHT)).toStrictEqual({
+      row: 0,
+      col: 1,
+      hex: Colors.YELLOW,
+    });
+    expect(getNeighbor(grid, { row: 0, col: 0 }, DOWN)).toStrictEqual({
+      row: 1,
+      col: 0,
+      hex: Colors.RED,
+    });
+  });
+
+  it("should return undefined for a neighbor that doesn't exist", function () {
+    expect(getNeighbor(grid, { row: 0, col: 0 }, UP)).toBeUndefined();
+    expect(getNeighbor(grid, { row: 0, col: 0 }, LEFT)).toBeUndefined();
+    expect(getNeighbor(grid, { row: 0, col: 1 }, RIGHT)).toBeUndefined();
+    expect(getNeighbor(grid, { row: 1, col: 0 }, DOWN)).toBeUndefined();
+  });
+});
+
+describe.only("getColorBlock", function () {
+  it("should return a set of connected cells of the same color in the same row", function () {
+    const grid = [
+      [Colors.RED, Colors.RED, Colors.RED, Colors.BLACK],
+      [Colors.BLACK, Colors.BLACK, Colors.BLACK, Colors.BLACK],
+    ];
+    const expected: Coordinates[] = [
+      { row: 0, col: 0 },
+      { row: 0, col: 1 },
+      { row: 0, col: 2 },
+    ];
+    const block = getColorBlock(grid, { row: 0, col: 0 });
+    expect(block.hex).toEqual(Colors.RED);
+    expect(block.cells).toMatchObject(expected);
+  });
+
+  it("should return a set of connected cells of the same color in the same column", function () {
+    const grid = [
+      [Colors.RED, Colors.BLACK, Colors.BLACK, Colors.BLACK],
+      [Colors.RED, Colors.BLACK, Colors.BLACK, Colors.BLACK],
+    ];
+    const expected: Coordinates[] = [
+      { row: 0, col: 0 },
+      { row: 1, col: 0 },
+    ];
+    const block = getColorBlock(grid, { row: 0, col: 0 });
+    expect(block.hex).toEqual(Colors.RED);
+    expect(block.cells).toMatchObject(expected);
+  });
+
+  it("should return a set of connected cells spanning multiple rows and columns", function () {
+    const grid = [
+      [Colors.RED, Colors.RED, Colors.RED, Colors.RED],
+      [Colors.RED, Colors.BLACK, Colors.BLACK, Colors.RED],
+      [Colors.RED, Colors.RED, Colors.RED, Colors.RED],
+    ];
+    const expected: Coordinates[] = [
+      { row: 0, col: 0 },
+      { row: 0, col: 1 },
+      { row: 1, col: 0 },
+      { row: 2, col: 0 },
+      { row: 2, col: 1 },
+      { row: 2, col: 2 },
+      { row: 2, col: 3 },
+      { row: 1, col: 3 },
+      { row: 0, col: 3 },
+      { row: 0, col: 2 },
+    ];
+    const block = getColorBlock(grid, { row: 0, col: 0 });
+    expect(block.hex).toEqual(Colors.RED);
+    expect(block.cells).toMatchObject(expected);
+  });
+
+  it("should find all connected cells regardless of starting cell position", function () {
+    const grid = [
+      [Colors.RED, Colors.RED, Colors.RED, Colors.RED],
+      [Colors.RED, Colors.BLACK, Colors.BLACK, Colors.RED],
+      [Colors.RED, Colors.RED, Colors.RED, Colors.RED],
+    ];
+    const expected: Coordinates[] = [
+      { row: 2, col: 3 },
+      { row: 2, col: 2 },
+      { row: 1, col: 3 },
+      { row: 0, col: 3 },
+      { row: 0, col: 2 },
+      { row: 0, col: 1 },
+      { row: 0, col: 0 },
+      { row: 1, col: 0 },
+      { row: 2, col: 0 },
+      { row: 2, col: 1 },
+    ];
+    const block = getColorBlock(grid, { row: 2, col: 3 });
+    expect(block.hex).toEqual(Colors.RED);
+    expect(block.cells).toMatchObject(expected);
+  });
+
+  it("should not return cells that are connected on the diagonal", function () {
+    const grid = [
+      [Colors.RED, Colors.RED, Colors.BLACK, Colors.BLACK],
+      [Colors.RED, Colors.RED, Colors.BLACK, Colors.BLACK],
+      [Colors.BLACK, Colors.BLACK, Colors.RED, Colors.RED],
+    ];
+    const expected: Coordinates[] = [
+      { row: 0, col: 0 },
+      { row: 0, col: 1 },
+      { row: 1, col: 0 },
+      { row: 1, col: 1 },
+    ];
+    const block = getColorBlock(grid, { row: 0, col: 0 });
+    expect(block.hex).toEqual(Colors.RED);
+    expect(block.cells).toMatchObject(expected);
+  });
+});
+
+describe.only("findNextColorBlock", function () {
+  it("should find the next color block to the right", function () {
+    const grid = [
+      [Colors.RED, Colors.RED, Colors.DARK_RED, Colors.DARK_RED],
+      [Colors.RED, Colors.RED, Colors.DARK_RED, Colors.DARK_RED],
+      [Colors.BLACK, Colors.RED, Colors.RED, Colors.DARK_RED],
+    ];
+    const block = getColorBlock(grid, { row: 0, col: 0 });
+    expect(findNextColorBlock(grid, block, RIGHT, "left")).toBeUndefined();
+  });
+});
 
 describe("getHueChange", function () {
   it("should return the correct number of steps between two colors with the same lightness", function () {

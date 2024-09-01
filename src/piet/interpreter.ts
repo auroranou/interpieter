@@ -1,39 +1,12 @@
 import type { HexGrid } from "../types";
-import type {
-  Cell,
-  ColorBlock,
-  Coordinates,
-  Direction,
-  Operation,
-} from "./types";
+import type { Coordinates, Direction, Operation } from "./types";
 import { RIGHT } from "./types";
-import { getHueChange, getLightnessChange } from "./utils";
-
-// Given a cell at (cellX, cellY) and direction coordinates, return the neighbor in that direction if it exists
-function getNeighbor(
-  grid: HexGrid,
-  [cellX, cellY]: Coordinates,
-  [dirX, dirY]: Direction
-): Cell | undefined {
-  if (grid[cellX + dirX] != null) {
-    const neighbor = grid[cellX + dirX][cellY + dirY];
-
-    if (neighbor != null) {
-      return [cellX + dirX, cellY + dirY, neighbor];
-    }
-  }
-}
-
-// For a cell at (rowIdx, colIdx), find all connected cells with the same color
-function getColorBlock(grid: HexGrid, [x, y]: Coordinates): ColorBlock {
-  // Flood-fill algorithm
-}
-
-function findNextColorBlock(
-  grid: HexGrid,
-  block: ColorBlock,
-  d: Direction
-): ColorBlock | undefined {}
+import {
+  findNextColorBlock,
+  getColorBlock,
+  getHueChange,
+  getLightnessChange,
+} from "./utils";
 
 function interpretCommand(
   hueChange: number,
@@ -243,7 +216,7 @@ function executeCommand(op: Operation, stack: unknown[], size: number) {
 
 export function parse(grid: HexGrid) {
   // Initialize execution pointer, direction pointer, and codel chooser
-  let EP: Coordinates = [0, 0];
+  let EP: Coordinates = { row: 0, col: 0 };
   let DP: Direction = RIGHT;
   let CC: "left" | "right" = "left";
 
@@ -256,7 +229,7 @@ export function parse(grid: HexGrid) {
     const blockSize = currBlock.cells.length;
 
     // Move through color block and determine transition to next block
-    const nextBlock = findNextColorBlock(grid, currBlock, DP);
+    const nextBlock = findNextColorBlock(grid, currBlock, DP, CC);
     if (!nextBlock) {
       // Rotate DP if needed, handle edge cases
       // Terminate if no further moves
@@ -264,11 +237,8 @@ export function parse(grid: HexGrid) {
     }
 
     // Determine command/operation associated with color block transition
-    const hueChange = getHueChange(currBlock.color, nextBlock.color);
-    const lightnessChange = getLightnessChange(
-      currBlock.color,
-      nextBlock.color
-    );
+    const hueChange = getHueChange(currBlock.hex, nextBlock.hex);
+    const lightnessChange = getLightnessChange(currBlock.hex, nextBlock.hex);
 
     // Execute command
     const operation = interpretCommand(hueChange, lightnessChange);
