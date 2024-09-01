@@ -1,7 +1,7 @@
 import type { ChangeEvent } from "react";
 
-import css from "./GridDimensionControls.module.css";
-import { useAppState } from "../state/context";
+import css from "components/controls/GridDimensionControls.module.css";
+import { useAppState } from "state/context";
 
 export function GridControls() {
   const { numCols, numRows, setNumCols, setNumRows } = useAppState();

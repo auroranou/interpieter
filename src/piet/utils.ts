@@ -1,5 +1,5 @@
-import { COLOR_MAP, HUE_CYCLE } from "../constants/colors";
-import type { HexCode, HexGrid } from "../types";
+import { COLOR_MAP, HUE_CYCLE } from "constants/colors";
+import type { HexCode, HexGrid } from "types";
 import {
   type Codel,
   type Coordinates,
@@ -9,7 +9,7 @@ import {
   Operation,
   RIGHT,
   UP,
-} from "./types";
+} from "piet/types";
 
 export function getCodel(grid: HexGrid, codel: Coordinates) {
   if (grid[codel.row] && grid[codel.row][codel.col]) {

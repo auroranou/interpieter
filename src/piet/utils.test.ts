@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 
-import * as Colors from "../constants/colors";
-import { DOWN, LEFT, RIGHT, UP } from "./types";
+import * as Colors from "constants/colors";
+import { DOWN, LEFT, RIGHT, UP } from "piet/types";
 import {
   getHueChange,
   getLightnessChange,
   getNeighbor,
   rotateDirPointer,
   toggleCodelChooser,
-} from "./utils";
+} from "piet/utils";
 
 describe("getNeighbor", function () {
   const grid = [

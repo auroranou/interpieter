@@ -1,15 +1,15 @@
 import { type ChangeEvent } from "react";
 
+import css from "components/controls/ColorControls.module.css";
 import {
   BLACK,
   DARK_COLORS,
   LIGHT_COLORS,
   NORMAL_COLORS,
   WHITE,
-} from "../constants/colors";
-import { useAppState } from "../state/context";
-import type { HexCode } from "../types";
-import css from "./ColorControls.module.css";
+} from "constants/colors";
+import { useAppState } from "state/context";
+import type { HexCode } from "types";
 
 type ColorControlRowProps = {
   checked: HexCode;

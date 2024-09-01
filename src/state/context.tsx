@@ -1,20 +1,28 @@
-import { createContext, ReactNode, useCallback, useContext } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useRef,
+} from "react";
 import { useImmer } from "use-immer";
 
-import { LIGHT_COLORS, WHITE } from "../constants/colors";
-import { DEFAULT_GRID_DIMENSION } from "../constants/grid";
-import type { HexCode, HexGrid } from "../types";
+import { LIGHT_COLORS, WHITE } from "constants/colors";
+import { DEFAULT_GRID_DIMENSION } from "constants/grid";
+import { Interpieter } from "piet/interpreter";
 import {
   extendGridHeight,
   extendRow,
   makeGrid,
   shrinkGridHeight,
   shrinkRow,
-} from "./utils";
+} from "state/utils";
+import type { HexCode, HexGrid } from "types";
 
 type AppState = {
   currentColor: HexCode;
   grid: HexGrid;
+  interpreter: Interpieter;
   numCols: number;
   numRows: number;
   getCellColor: (rowIdx: number, colIdx: number) => HexCode;
@@ -27,6 +35,7 @@ type AppState = {
 const defaultAppState: AppState = {
   currentColor: LIGHT_COLORS[0],
   grid: makeGrid(),
+  interpreter: new Interpieter(),
   numCols: DEFAULT_GRID_DIMENSION,
   numRows: DEFAULT_GRID_DIMENSION,
   getCellColor: () => WHITE,
@@ -39,6 +48,7 @@ const defaultAppState: AppState = {
 const AppContext = createContext(defaultAppState);
 
 export function AppProvider({ children }: { children: ReactNode }) {
+  const interpreter = useRef(new Interpieter());
   const [currentColor, setCurrentColor] = useImmer(LIGHT_COLORS[0]);
   const [grid, setGrid] = useImmer(makeGrid());
   const [height, setHeight] = useImmer(DEFAULT_GRID_DIMENSION);
@@ -101,6 +111,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       value={{
         currentColor,
         grid,
+        interpreter: interpreter.current,
         numCols: width,
         numRows: height,
         getCellColor,

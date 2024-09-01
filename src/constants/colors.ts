@@ -1,4 +1,4 @@
-import type { HexCode, ColorMap } from "../types";
+import type { HexCode, ColorMap } from "types";
 
 export const LIGHT_RED: HexCode = "#FFC0C0";
 export const LIGHT_YELLOW: HexCode = "#FFFFC0";

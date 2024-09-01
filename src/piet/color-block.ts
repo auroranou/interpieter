@@ -1,4 +1,4 @@
-import type { HexGrid } from "../types";
+import type { HexGrid } from "types";
 import {
   type ColorBlock,
   type Coordinates,
@@ -8,8 +8,8 @@ import {
   LEFT,
   RIGHT,
   UP,
-} from "./types";
-import { getCodel, getNeighbor } from "./utils";
+} from "piet/types";
+import { getCodel, getNeighbor } from "piet/utils";
 
 // Given a cell's coordinates, find all connected cells with the same color. A
 // neighbor is connected if it touches the cell in one of the four cardinal

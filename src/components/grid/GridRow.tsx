@@ -1,6 +1,6 @@
-import { CODEL_SIZE } from "../constants/grid";
-import { GridCell } from "./GridCell";
-import type { HexCode } from "../types";
+import { CODEL_SIZE } from "constants/grid";
+import { GridCell } from "components/grid/GridCell";
+import type { HexCode } from "types";
 
 type GridRowProps = {
   row: HexCode[];

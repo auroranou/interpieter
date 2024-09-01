@@ -1,6 +1,6 @@
-import { WHITE } from "../constants/colors";
-import { DEFAULT_GRID_DIMENSION } from "../constants/grid";
-import type { HexCode, HexGrid } from "../types";
+import { WHITE } from "constants/colors";
+import { DEFAULT_GRID_DIMENSION } from "constants/grid";
+import type { HexCode, HexGrid } from "types";
 
 export function makeRow(numCols: number = DEFAULT_GRID_DIMENSION): HexCode[] {
   return Array.from(Array(numCols)).fill(WHITE);
@@ -38,4 +38,28 @@ export function shrinkGridHeight(
 ): HexGrid {
   // Remove `numRowsToRemove` rows from end of grid
   return grid.splice(-numRowsToRemove, numRowsToRemove);
+}
+
+export function isValidGrid(grid: HexGrid): boolean {
+  const rowWidths = new Set<number>();
+
+  for (let i = 0; i < grid.length; i++) {
+    const row = grid[i];
+    rowWidths.add(row.length);
+
+    if (rowWidths.size > 1) {
+      console.log("Rows are of different sizes");
+      return false;
+    }
+
+    for (let j = 0; j < row.length; j++) {
+      const codel = row[j];
+      if (!codel) {
+        console.log(`Invalid codel value at row ${i}, column ${j}`);
+        return false;
+      }
+    }
+  }
+
+  return true;
 }

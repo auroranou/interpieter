@@ -1,4 +1,4 @@
-import type { HexCode } from "../types";
+import type { HexCode } from "types";
 
 export type Coordinates = { row: number; col: number };
 export type Codel = Coordinates & { hex: HexCode };

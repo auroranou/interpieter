@@ -1,14 +1,14 @@
-import { BLACK, WHITE } from "../constants/colors";
-import type { HexGrid } from "../types";
-import { findNextColorBlock, getColorBlock } from "./color-block";
-import { type Coordinates, type Direction, Operation, RIGHT } from "./types";
+import { BLACK, WHITE } from "constants/colors";
+import { findNextColorBlock, getColorBlock } from "piet/color-block";
+import { type Coordinates, type Direction, Operation, RIGHT } from "piet/types";
 import {
   getHueChange,
   getLightnessChange,
   interpretCommand,
   rotateDirPointer,
   toggleCodelChooser,
-} from "./utils";
+} from "piet/utils";
+import type { HexGrid } from "types";
 
 export class Interpieter {
   grid: HexGrid;

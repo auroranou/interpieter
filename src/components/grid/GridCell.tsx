@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
-import { CODEL_SIZE } from "../constants/grid";
-import { useAppState } from "../state/context";
+import { CODEL_SIZE } from "constants/grid";
+import { useAppState } from "state/context";
 
 type GridCellProps = {
   colIdx: number;

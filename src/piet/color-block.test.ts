@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import * as Colors from "../constants/colors";
-import { findNextColorBlock, getColorBlock } from "./color-block";
-import { type Coordinates, LEFT, RIGHT } from "./types";
+import * as Colors from "constants/colors";
+import { findNextColorBlock, getColorBlock } from "piet/color-block";
+import { type Coordinates, LEFT, RIGHT } from "piet/types";
 
 describe("getColorBlock", function () {
   it("should return a set of connected cells of the same color in the same row", function () {
