@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { parse } from "../piet/interpreter";
+import { Interpieter } from "../piet/interpreter";
 import { useAppState } from "../state/context";
 import type { HexGrid } from "../types";
 import css from "./RunControl.module.css";
@@ -31,6 +31,7 @@ function isValidGrid(grid: HexGrid): boolean {
 
 export function RunControl() {
   const { grid } = useAppState();
+  const interpreter = useRef<Interpieter>();
   const [disabled, setDisabled] = useState(!isValidGrid(grid));
 
   useEffect(() => {
@@ -38,7 +39,8 @@ export function RunControl() {
   }, [grid]);
 
   const handleClick = useCallback(() => {
-    parse(grid);
+    interpreter.current = new Interpieter(grid);
+    interpreter.current.parse();
   }, [grid]);
 
   return (

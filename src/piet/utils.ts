@@ -6,6 +6,7 @@ import {
   type Direction,
   DOWN,
   LEFT,
+  Operation,
   RIGHT,
   UP,
 } from "./types";
@@ -29,6 +30,33 @@ export function getNeighbor(
   if (hex) {
     return { row, col, hex };
   }
+}
+
+// Operations grouped by hue change (0-5), then lightness change (0-2)
+const OPS_MATRIX: (Operation | undefined)[][] = [
+  [undefined, "push", "pop"],
+  ["add", "subtract", "multiply"],
+  ["divide", "mod", "not"],
+  ["greater", "pointer", "switch"],
+  ["duplicate", "roll", "in-number"],
+  ["in-char", "out-number", "out-char"],
+];
+
+export function interpretCommand(
+  hueChange: number,
+  lightnessChange: number
+): Operation | undefined {
+  if (hueChange < 0 || hueChange > 5) {
+    throw new Error(`Value out of bounds for hue change: ${hueChange}`);
+  }
+
+  if (lightnessChange < 0 || lightnessChange > 2) {
+    throw new Error(
+      `Value out of bounds for lightness change: ${lightnessChange}`
+    );
+  }
+
+  return OPS_MATRIX[hueChange][lightnessChange];
 }
 
 export function getHueChange(color1: HexCode, color2: HexCode): number {
