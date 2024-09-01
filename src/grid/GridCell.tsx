@@ -17,7 +17,7 @@ export function GridCell({ colIdx, rowIdx }: GridCellProps) {
     const elem = elemRef.current;
 
     function handleCellClick() {
-      setCellColor(rowIdx, colIdx, currentColor.hex);
+      setCellColor(rowIdx, colIdx, currentColor);
     }
 
     if (!elem) {
@@ -27,7 +27,7 @@ export function GridCell({ colIdx, rowIdx }: GridCellProps) {
     elem.addEventListener("click", handleCellClick);
 
     return () => elem.removeEventListener("click", handleCellClick);
-  }, [colIdx, currentColor.hex, rowIdx, setCellColor]);
+  }, [colIdx, currentColor, rowIdx, setCellColor]);
 
   return (
     <td

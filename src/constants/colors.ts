@@ -1,28 +1,28 @@
-import type { Color } from "../types";
+import type { HexCode, ColorMap } from "../types";
 
-export const LIGHT_RED: Color = { hex: "#FFC0C0", label: "Light red" };
-export const LIGHT_YELLOW: Color = { hex: "#FFFFC0", label: "Light yellow" };
-export const LIGHT_GREEN: Color = { hex: "#C0FFC0", label: "Light green" };
-export const LIGHT_CYAN: Color = { hex: "#C0FFFF", label: "Light cyan" };
-export const LIGHT_BLUE: Color = { hex: "#C0C0FF", label: "Light blue" };
-export const LIGHT_MAGENTA: Color = { hex: "#FFC0FF", label: "Light magenta" };
+export const LIGHT_RED: HexCode = "#FFC0C0";
+export const LIGHT_YELLOW: HexCode = "#FFFFC0";
+export const LIGHT_GREEN: HexCode = "#C0FFC0";
+export const LIGHT_CYAN: HexCode = "#C0FFFF";
+export const LIGHT_BLUE: HexCode = "#C0C0FF";
+export const LIGHT_MAGENTA: HexCode = "#FFC0FF";
 
-export const RED: Color = { hex: "#FF0000", label: "Red" };
-export const YELLOW: Color = { hex: "#FFFF00", label: "Yellow" };
-export const GREEN: Color = { hex: "#00FF00", label: "Green" };
-export const CYAN: Color = { hex: "#00FFFF", label: "Cyan" };
-export const BLUE: Color = { hex: "#0000FF", label: "Blue" };
-export const MAGENTA: Color = { hex: "#FF00FF", label: "Magenta" };
+export const RED: HexCode = "#FF0000";
+export const YELLOW: HexCode = "#FFFF00";
+export const GREEN: HexCode = "#00FF00";
+export const CYAN: HexCode = "#00FFFF";
+export const BLUE: HexCode = "#0000FF";
+export const MAGENTA: HexCode = "#FF00FF";
 
-export const DARK_RED: Color = { hex: "#C00000", label: "Dark red" };
-export const DARK_YELLOW: Color = { hex: "#C0C000", label: "Dark yellow" };
-export const DARK_GREEN: Color = { hex: "#00C000", label: "Dark green" };
-export const DARK_CYAN: Color = { hex: "#00C0C0", label: "Dark cyan" };
-export const DARK_BLUE: Color = { hex: "#0000C0", label: "Dark blue" };
-export const DARK_MAGENTA: Color = { hex: "#C000C0", label: "Dark magenta" };
+export const DARK_RED: HexCode = "#C00000";
+export const DARK_YELLOW: HexCode = "#C0C000";
+export const DARK_GREEN: HexCode = "#00C000";
+export const DARK_CYAN: HexCode = "#00C0C0";
+export const DARK_BLUE: HexCode = "#0000C0";
+export const DARK_MAGENTA: HexCode = "#C000C0";
 
-export const WHITE: Color = { hex: "#FFF", label: "White" };
-export const BLACK: Color = { hex: "#000", label: "Black" };
+export const WHITE: HexCode = "#FFF";
+export const BLACK: HexCode = "#000";
 
 export const LIGHT_COLORS = [
   LIGHT_RED,
@@ -43,3 +43,33 @@ export const DARK_COLORS = [
   DARK_BLUE,
   DARK_MAGENTA,
 ];
+
+export const HUE_CYCLE = ["red", "yellow", "green", "cyan", "blue", "magenta"];
+export const LIGHTNESS_CYCLE = ["light", "normal", "dark"];
+
+export const COLOR_MAP: ColorMap = {
+  [LIGHT_RED]: { hue: "red", lightness: "light", label: "Light red" },
+  [LIGHT_YELLOW]: { hue: "yellow", lightness: "light", label: "Light yellow" },
+  [LIGHT_GREEN]: { hue: "green", lightness: "light", label: "Light green" },
+  [LIGHT_CYAN]: { hue: "cyan", lightness: "light", label: "Light cyan" },
+  [LIGHT_BLUE]: { hue: "blue", lightness: "light", label: "Light blue" },
+  [LIGHT_MAGENTA]: {
+    hue: "magenta",
+    lightness: "light",
+    label: "Light magenta",
+  },
+
+  [RED]: { hue: "red", lightness: "normal", label: "Red" },
+  [YELLOW]: { hue: "yellow", lightness: "normal", label: "Yellow" },
+  [GREEN]: { hue: "green", lightness: "normal", label: "Green" },
+  [CYAN]: { hue: "cyan", lightness: "normal", label: "Cyan" },
+  [BLUE]: { hue: "blue", lightness: "normal", label: "Blue" },
+  [MAGENTA]: { hue: "magenta", lightness: "normal", label: "Magenta" },
+
+  [DARK_RED]: { hue: "red", lightness: "dark", label: "Dark red" },
+  [DARK_YELLOW]: { hue: "yellow", lightness: "dark", label: "Dark yellow" },
+  [DARK_GREEN]: { hue: "green", lightness: "dark", label: "Dark green" },
+  [DARK_CYAN]: { hue: "cyan", lightness: "dark", label: "Dark cyan" },
+  [DARK_BLUE]: { hue: "blue", lightness: "dark", label: "Dark blue" },
+  [DARK_MAGENTA]: { hue: "magenta", lightness: "dark", label: "Dark magenta" },
+};

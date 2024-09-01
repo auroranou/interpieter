@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useCallback, useContext } from "react";
+import { useImmer } from "use-immer";
 
 import { LIGHT_COLORS, WHITE } from "../constants/colors";
 import { DEFAULT_GRID_DIMENSION } from "../constants/grid";
-import { Color, HexCode, HexGrid } from "../types";
+import type { HexCode, HexGrid } from "../types";
 import {
   extendGridHeight,
   extendRow,
@@ -10,16 +11,15 @@ import {
   shrinkGridHeight,
   shrinkRow,
 } from "./utils";
-import { useImmer } from "use-immer";
 
 type AppState = {
-  currentColor: Color;
+  currentColor: HexCode;
   grid: HexGrid;
   numCols: number;
   numRows: number;
   getCellColor: (rowIdx: number, colIdx: number) => HexCode;
   setCellColor: (rowIdx: number, colIdx: number, color: HexCode) => void;
-  setCurrentColor: (color: Color) => void;
+  setCurrentColor: (color: HexCode) => void;
   setNumCols: (numCols: number) => void;
   setNumRows: (numRows: number) => void;
 };
@@ -29,7 +29,7 @@ const defaultAppState: AppState = {
   grid: makeGrid(),
   numCols: DEFAULT_GRID_DIMENSION,
   numRows: DEFAULT_GRID_DIMENSION,
-  getCellColor: () => WHITE.hex,
+  getCellColor: () => WHITE,
   setCellColor: () => {},
   setCurrentColor: () => {},
   setNumCols: () => {},

@@ -3,19 +3,6 @@
   margin: 24px 24px 24px 48px;
 }
 
-.gridControls {
-  display: flex;
-  justify-content: space-between;
-}
-
-.gridControls label {
-  flex: 1;
-}
-
-.gridControls input {
-  width: 100%;
-}
-
 .gridWrapper {
   display: flex;
   align-items: center;

@@ -1,6 +1,5 @@
 import { type ChangeEvent } from "react";
 
-import css from "./ColorControls.module.css";
 import {
   BLACK,
   DARK_COLORS,
@@ -9,13 +8,14 @@ import {
   WHITE,
 } from "../constants/colors";
 import { useAppState } from "../state/context";
-import type { Color } from "../types";
+import type { HexCode } from "../types";
+import css from "./ColorControls.module.css";
 
 type ColorControlRowProps = {
-  checked: Color;
-  colors: Color[];
+  checked: HexCode;
+  colors: HexCode[];
   groupName: string;
-  onChange: (val: Color) => void;
+  onChange: (val: HexCode) => void;
 };
 
 function ColorControlRow({
@@ -26,7 +26,7 @@ function ColorControlRow({
 }: ColorControlRowProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value;
-    const checkedColor = colors.find((c) => c.hex === val);
+    const checkedColor = colors.find((c) => c === val);
     if (checkedColor) {
       onChange(checkedColor);
     }
@@ -36,24 +36,21 @@ function ColorControlRow({
     <div className={css.colorControlRow}>
       {colors.map((c) => (
         <span
-          key={c.hex}
+          key={c}
           className={css.colorControlItem}
           style={{ width: `calc(1/${colors.length} * 100% - 8px)` }}
         >
           <input
-            checked={c.hex === checked.hex}
-            id={`${c.hex}-radio`}
+            checked={c === checked}
+            id={`${c}-radio`}
             name={groupName}
             onChange={handleChange}
             type="radio"
-            value={c.hex}
+            value={c}
           />
-          <label htmlFor={`${c.hex}-radio`}>
-            <span
-              className={css.colorSwatch}
-              style={{ backgroundColor: c.hex }}
-            />
-            <span>{c.label}</span>
+          <label htmlFor={`${c}-radio`}>
+            <span className={css.colorSwatch} style={{ backgroundColor: c }} />
+            <span>{c}</span>
           </label>
         </span>
       ))}
