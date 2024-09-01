@@ -18,7 +18,7 @@ export function parse(grid: HexGrid) {
   while (true) {
     // Identify color block and its size
     const currBlock = getColorBlock(grid, EP);
-    const blockSize = currBlock.cells.length;
+    const blockSize = currBlock.codels.length;
 
     // Move through color block and determine transition to next block
     const nextBlock = findNextColorBlock(grid, currBlock, DP, CC);
@@ -27,7 +27,7 @@ export function parse(grid: HexGrid) {
       // Terminate if no further moves
       break;
     } else if (nextBlock.hex === WHITE) {
-      EP = nextBlock.cells[0];
+      EP = nextBlock.codels[0];
       continue;
     }
 
@@ -42,6 +42,6 @@ export function parse(grid: HexGrid) {
     }
 
     // Move to next block
-    EP = nextBlock.cells[0];
+    EP = nextBlock.codels[0];
   }
 }

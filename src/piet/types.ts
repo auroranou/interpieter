@@ -1,8 +1,8 @@
 import type { HexCode } from "../types";
 
 export type Coordinates = { row: number; col: number };
-export type Cell = Coordinates & { hex: HexCode };
-export type ColorBlock = { cells: Coordinates[]; hex: HexCode };
+export type Codel = Coordinates & { hex: HexCode };
+export type ColorBlock = { codels: Coordinates[]; hex: HexCode };
 
 export const RIGHT: Coordinates = { row: 0, col: 1 };
 export const LEFT: Coordinates = { row: 0, col: -1 };

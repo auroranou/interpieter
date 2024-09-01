@@ -1,7 +1,7 @@
 import { COLOR_MAP, HUE_CYCLE } from "../constants/colors";
 import type { HexCode, HexGrid } from "../types";
 import {
-  type Cell,
+  type Codel,
   type Coordinates,
   type Direction,
   DOWN,
@@ -10,22 +10,22 @@ import {
   UP,
 } from "./types";
 
-export function getCell(grid: HexGrid, cell: Coordinates) {
-  if (grid[cell.row] && grid[cell.row][cell.col]) {
-    return grid[cell.row][cell.col];
+export function getCodel(grid: HexGrid, codel: Coordinates) {
+  if (grid[codel.row] && grid[codel.row][codel.col]) {
+    return grid[codel.row][codel.col];
   }
 }
 
-// Given a cell's coordinates and direction coordinates, return its neighbor in
+// Given a codel's coordinates and direction coordinates, return its neighbor in
 // that direction if one exists
 export function getNeighbor(
   grid: HexGrid,
-  cell: Coordinates,
+  codel: Coordinates,
   d: Direction
-): Cell | undefined {
-  const row = cell.row + d.row;
-  const col = cell.col + d.col;
-  const hex = getCell(grid, { row, col });
+): Codel | undefined {
+  const row = codel.row + d.row;
+  const col = codel.col + d.col;
+  const hex = getCodel(grid, { row, col });
   if (hex) {
     return { row, col, hex };
   }

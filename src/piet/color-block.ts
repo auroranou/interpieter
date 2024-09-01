@@ -9,13 +9,13 @@ import {
   RIGHT,
   UP,
 } from "./types";
-import { getCell, getNeighbor } from "./utils";
+import { getCodel, getNeighbor } from "./utils";
 
 // Given a cell's coordinates, find all connected cells with the same color. A
 // neighbor is connected if it touches the cell in one of the four cardinal
 // directions (diagonals do not count).
 export function getColorBlock(grid: HexGrid, cell: Coordinates): ColorBlock {
-  const hex = getCell(grid, cell);
+  const hex = getCodel(grid, cell);
   if (!hex) {
     throw new Error(`Invalid starting cell for color block`);
   }
@@ -54,10 +54,13 @@ export function getColorBlock(grid: HexGrid, cell: Coordinates): ColorBlock {
   }
 
   const cells = [...block].map((c: string) => JSON.parse(c) as Coordinates);
-  return { cells, hex };
+  return { codels: cells, hex };
 }
 
-function findFarthestEdge({ cells }: ColorBlock, dp: Direction): Coordinates[] {
+function findFarthestEdge(
+  { codels: cells }: ColorBlock,
+  dp: Direction
+): Coordinates[] {
   switch (dp) {
     case RIGHT: {
       const maxCol = Math.max(...cells.map((c) => c.col));

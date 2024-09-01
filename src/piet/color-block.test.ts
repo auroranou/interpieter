@@ -17,7 +17,7 @@ describe("getColorBlock", function () {
     ];
     const block = getColorBlock(grid, { row: 0, col: 0 });
     expect(block.hex).toEqual(Colors.RED);
-    expect(block.cells).toMatchObject(expected);
+    expect(block.codels).toMatchObject(expected);
   });
 
   it("should return a set of connected cells of the same color in the same column", function () {
@@ -31,7 +31,7 @@ describe("getColorBlock", function () {
     ];
     const block = getColorBlock(grid, { row: 0, col: 0 });
     expect(block.hex).toEqual(Colors.RED);
-    expect(block.cells).toMatchObject(expected);
+    expect(block.codels).toMatchObject(expected);
   });
 
   it("should return a set of connected cells spanning multiple rows and columns", function () {
@@ -54,7 +54,7 @@ describe("getColorBlock", function () {
     ];
     const block = getColorBlock(grid, { row: 0, col: 0 });
     expect(block.hex).toEqual(Colors.RED);
-    expect(block.cells).toMatchObject(expected);
+    expect(block.codels).toMatchObject(expected);
   });
 
   it("should find all connected cells regardless of starting cell position", function () {
@@ -77,7 +77,7 @@ describe("getColorBlock", function () {
     ];
     const block = getColorBlock(grid, { row: 2, col: 3 });
     expect(block.hex).toEqual(Colors.RED);
-    expect(block.cells).toMatchObject(expected);
+    expect(block.codels).toMatchObject(expected);
   });
 
   it("should not return cells that are connected on the diagonal", function () {
@@ -94,7 +94,7 @@ describe("getColorBlock", function () {
     ];
     const block = getColorBlock(grid, { row: 0, col: 0 });
     expect(block.hex).toEqual(Colors.RED);
-    expect(block.cells).toMatchObject(expected);
+    expect(block.codels).toMatchObject(expected);
   });
 });
 
@@ -108,7 +108,7 @@ describe.only("findNextColorBlock", function () {
     const block = getColorBlock(grid, { row: 0, col: 0 });
     const nextBlock = findNextColorBlock(grid, block, RIGHT, "left");
     expect(nextBlock?.hex).toBe(Colors.DARK_RED);
-    expect(nextBlock?.cells).toHaveLength(5);
+    expect(nextBlock?.codels).toHaveLength(5);
   });
 
   it("should find the next color block to the left if one exists", function () {
@@ -120,6 +120,6 @@ describe.only("findNextColorBlock", function () {
     const block = getColorBlock(grid, { row: 2, col: 3 });
     const nextBlock = findNextColorBlock(grid, block, LEFT, "left");
     expect(nextBlock?.hex).toBe(Colors.RED);
-    expect(nextBlock?.cells).toHaveLength(6);
+    expect(nextBlock?.codels).toHaveLength(6);
   });
 });

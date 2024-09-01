@@ -3,12 +3,12 @@ import { DEFAULT_GRID_DIMENSION } from "../constants/grid";
 import type { HexCode, HexGrid } from "../types";
 
 export function makeRow(numCols: number = DEFAULT_GRID_DIMENSION): HexCode[] {
-  return Array.from(Array(numCols)).fill(WHITE.hex);
+  return Array.from(Array(numCols)).fill(WHITE);
 }
 
 export function extendRow(row: HexCode[], numColsToAdd: number): HexCode[] {
   for (let i = 0; i < numColsToAdd; i++) {
-    row.push(WHITE.hex);
+    row.push(WHITE);
   }
   return row;
 }
