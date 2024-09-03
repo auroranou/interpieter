@@ -11,6 +11,10 @@ import {
   UP,
 } from "piet/types";
 
+export function isNum(val: unknown): val is number {
+  return typeof val === "number";
+}
+
 export function getCodel(grid: HexGrid, codel: Coordinates) {
   if (grid[codel.row] && grid[codel.row][codel.col]) {
     return grid[codel.row][codel.col];

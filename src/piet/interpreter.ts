@@ -5,6 +5,7 @@ import {
   getHueChange,
   getLightnessChange,
   interpretCommand,
+  isNum,
   rotateDirPointer,
   toggleCodelChooser,
 } from "piet/utils";
@@ -30,6 +31,11 @@ export class Interpieter {
   }
 
   parse() {
+    this.EP = { row: 0, col: 0 };
+    this.DP = RIGHT;
+    this.CC = "left";
+    this.stack = [];
+
     while (true) {
       // Identify color block and its size
       const currBlock = getColorBlock(this.grid, this.EP);
@@ -42,6 +48,7 @@ export class Interpieter {
         this.DP,
         this.CC
       );
+
       if (!nextBlock || nextBlock.hex === BLACK) {
         // Rotate DP if needed, handle edge cases
         // Terminate if no further moves
@@ -83,9 +90,8 @@ export class Interpieter {
         // back on the stack.
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
-        const res = Number(operand1) + Number(operand2);
-        if (!isNaN(res)) {
-          this.stack.push(res);
+        if (isNum(operand1) && isNum(operand2)) {
+          this.stack.push(operand1 + operand2);
         }
         break;
       }
@@ -94,9 +100,8 @@ export class Interpieter {
         // minus the top value, and pushes the result back on the stack.
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
-        const res = Number(operand2) - Number(operand1);
-        if (!isNaN(res)) {
-          this.stack.push(res);
+        if (isNum(operand1) && isNum(operand2)) {
+          this.stack.push(operand2 - operand1);
         }
         break;
       }
@@ -105,9 +110,8 @@ export class Interpieter {
         // result back on the stack.
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
-        const res = Number(operand1) * Number(operand2);
-        if (!isNaN(res)) {
-          this.stack.push(res);
+        if (isNum(operand1) && isNum(operand2)) {
+          this.stack.push(operand1 * operand2);
         }
         break;
       }
@@ -117,9 +121,8 @@ export class Interpieter {
         // the stack.
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
-        const res = Number(operand2) / Number(operand1);
-        if (!isNaN(res) && isFinite(res)) {
-          this.stack.push(Math.floor(res));
+        if (isNum(operand1) && isNum(operand2) && operand1 != 0) {
+          this.stack.push(operand2 / operand1);
         }
         break;
       }
@@ -129,9 +132,8 @@ export class Interpieter {
         // result has the same sign as the divisor (the top value).
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
-        const res = Number(operand2) % Number(operand1);
-        if (!isNaN(res)) {
-          this.stack.push(res);
+        if (isNum(operand1) && isNum(operand2)) {
+          this.stack.push(operand2 % operand1);
         }
         break;
       }
@@ -139,10 +141,8 @@ export class Interpieter {
         // Replaces the top value of the stack with 0 if it is non-zero, and 1 if
         // it is zero.
         const top = this.stack.pop();
-        if (Number(top) === 0) {
-          this.stack.push(1);
-        } else {
-          this.stack.push(0);
+        if (isNum(top)) {
+          this.stack.push(top === 0 ? 1 : 0);
         }
         break;
       }
@@ -152,10 +152,8 @@ export class Interpieter {
         // is not greater.
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
-        if (Number(operand2) > Number(operand1)) {
-          this.stack.push(1);
-        } else {
-          this.stack.push(0);
+        if (isNum(operand1) && isNum(operand2)) {
+          this.stack.push(operand2 > operand1 ? 1 : 0);
         }
         break;
       }
@@ -163,7 +161,7 @@ export class Interpieter {
         // Pops the top value off the stack and rotates the DP clockwise that many
         // steps (anticlockwise if negative).
         const numRotations = this.stack.pop();
-        if (typeof numRotations === "number" && numRotations > 0) {
+        if (isNum(numRotations) && numRotations > 0) {
           this.DP = rotateDirPointer(this.DP, numRotations);
         }
         break;
@@ -172,7 +170,7 @@ export class Interpieter {
         // Pops the top value off the stack and toggles the CC that many times
         // (the absolute value of that many times if negative).
         const numToggles = this.stack.pop();
-        if (typeof numToggles === "number" && numToggles > 0) {
+        if (isNum(numToggles) && numToggles > 0) {
           this.CC = toggleCodelChooser(this.CC, numToggles);
         }
         break;
@@ -209,10 +207,18 @@ export class Interpieter {
         // Pops the top value off the stack andf prints it to STDOUT as either a
         // number or character, depending on the particular incarnation of this
         // command.
+        const val = this.stack.pop();
+        console.log(val);
         break;
       }
-      case "out-char":
+      case "out-char": {
+        const val = this.stack.pop();
+        if (val) {
+          const char = String.fromCharCode(val);
+          console.log(char);
+        }
         break;
+      }
     }
   }
 }
