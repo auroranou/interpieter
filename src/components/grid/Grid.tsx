@@ -1,7 +1,6 @@
-import css from "components/grid/grid.module.css";
 import { GridControls } from "components/controls/GridDimensionControls";
 import { RunControl } from "components/controls/RunControl";
-import { ExecutionVisualizer } from "components/execution/ExecutionVisualizer";
+import css from "components/grid/grid.module.css";
 import { GridTable } from "components/grid/GridTable";
 
 export function Grid() {
@@ -10,7 +9,6 @@ export function Grid() {
       <GridControls />
       <div className={css.gridWrapper}>
         <GridTable />
-        <ExecutionVisualizer />
       </div>
       <RunControl />
     </div>

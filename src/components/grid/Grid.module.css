@@ -10,6 +10,10 @@
   justify-content: center;
 }
 
+.gridWrapper table {
+  position: relative;
+}
+
 .gridWrapper .grid {
   border: 1px solid lightgray;
   border-collapse: collapse;

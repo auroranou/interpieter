@@ -19,8 +19,12 @@ export class Interpieter {
   stack: number[];
 
   print: (val: string | number) => void;
+  draw_EP: (val: Coordinates) => void;
 
-  constructor(print: (val: string | number) => void) {
+  constructor(
+    print: (val: string | number) => void,
+    draw_EP: (val: Coordinates) => void
+  ) {
     this.grid = [];
     this.EP = { row: 0, col: 0 };
     this.DP = RIGHT;
@@ -28,6 +32,7 @@ export class Interpieter {
     this.stack = [];
 
     this.print = print;
+    this.draw_EP = draw_EP;
   }
 
   loadGrid(grid: HexGrid) {
@@ -74,6 +79,7 @@ export class Interpieter {
 
       // Move to next block
       this.EP = nextBlock.codels[0];
+      this.draw_EP(this.EP);
     }
   }
 

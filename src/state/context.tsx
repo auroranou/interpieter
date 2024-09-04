@@ -19,6 +19,7 @@ import {
   shrinkRow,
 } from "state/utils";
 import type { HexCode, HexGrid } from "types";
+import { Coordinates } from "piet/types";
 
 type AppState = {
   currentColor: HexCode;
@@ -28,6 +29,7 @@ type AppState = {
   numCols: number;
   numRows: number;
   output: string[];
+  EP?: Coordinates;
   getCellColor: (rowIdx: number, colIdx: number) => HexCode;
   setCellColor: (rowIdx: number, colIdx: number, color: HexCode) => void;
   setCurrentColor: (color: HexCode) => void;
@@ -42,7 +44,8 @@ const defaultAppState: AppState = {
   currentColor: LIGHT_COLORS[0],
   grid: makeGrid(),
   interpreter: new Interpieter(
-    noop // print
+    noop, // print
+    noop // draw_EP
   ),
   isConsoleOpen: false,
   numCols: DEFAULT_GRID_DIMENSION,
@@ -65,18 +68,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [output, setOutput] = useState<string[]>([]);
   const [height, setHeight] = useState(DEFAULT_GRID_DIMENSION);
   const [width, setWidth] = useState(DEFAULT_GRID_DIMENSION);
+  const [EP, setEP] = useState<Coordinates>();
 
-  const print = useCallback(
-    (val: string | number) => {
-      console.log(val);
-      setOutput((prev) => {
-        return [...prev, val.toString()];
-      });
-    },
-    [setOutput]
-  );
+  const print = (val: string | number) => {
+    console.log(val);
+    setOutput((prev) => {
+      return [...prev, val.toString()];
+    });
+  };
 
-  const interpreter = useRef(new Interpieter(print));
+  const draw_EP = (val: Coordinates) => {
+    setEP(val);
+  };
+
+  const interpreter = useRef(new Interpieter(print, draw_EP));
 
   const getCellColor = useCallback(
     (rowIdx: number, colIdx: number) => {
@@ -140,6 +145,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         numCols: width,
         numRows: height,
         output,
+        EP,
         getCellColor,
         setCellColor,
         setCurrentColor,
