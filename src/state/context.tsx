@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useRef,
+  useState,
 } from "react";
 import { useImmer } from "use-immer";
 
@@ -23,36 +24,59 @@ type AppState = {
   currentColor: HexCode;
   grid: HexGrid;
   interpreter: Interpieter;
+  isConsoleOpen: boolean;
   numCols: number;
   numRows: number;
+  output: string[];
   getCellColor: (rowIdx: number, colIdx: number) => HexCode;
   setCellColor: (rowIdx: number, colIdx: number, color: HexCode) => void;
   setCurrentColor: (color: HexCode) => void;
+  setIsConsoleOpen: (open: boolean) => void;
   setNumCols: (numCols: number) => void;
   setNumRows: (numRows: number) => void;
 };
 
+const noop = () => {};
+
 const defaultAppState: AppState = {
   currentColor: LIGHT_COLORS[0],
   grid: makeGrid(),
-  interpreter: new Interpieter(),
+  interpreter: new Interpieter(
+    noop // print
+  ),
+  isConsoleOpen: false,
   numCols: DEFAULT_GRID_DIMENSION,
   numRows: DEFAULT_GRID_DIMENSION,
+  output: [],
   getCellColor: () => WHITE,
-  setCellColor: () => {},
-  setCurrentColor: () => {},
-  setNumCols: () => {},
-  setNumRows: () => {},
+  setCellColor: noop,
+  setCurrentColor: noop,
+  setIsConsoleOpen: noop,
+  setNumCols: noop,
+  setNumRows: noop,
 };
 
 const AppContext = createContext(defaultAppState);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const interpreter = useRef(new Interpieter());
-  const [currentColor, setCurrentColor] = useImmer(LIGHT_COLORS[0]);
+  const [currentColor, setCurrentColor] = useState(LIGHT_COLORS[0]);
   const [grid, setGrid] = useImmer(makeGrid());
-  const [height, setHeight] = useImmer(DEFAULT_GRID_DIMENSION);
-  const [width, setWidth] = useImmer(DEFAULT_GRID_DIMENSION);
+  const [isConsoleOpen, setIsConsoleOpen] = useImmer(false);
+  const [output, setOutput] = useState<string[]>([]);
+  const [height, setHeight] = useState(DEFAULT_GRID_DIMENSION);
+  const [width, setWidth] = useState(DEFAULT_GRID_DIMENSION);
+
+  const print = useCallback(
+    (val: string | number) => {
+      console.log(val);
+      setOutput((prev) => {
+        return [...prev, val.toString()];
+      });
+    },
+    [setOutput]
+  );
+
+  const interpreter = useRef(new Interpieter(print));
 
   const getCellColor = useCallback(
     (rowIdx: number, colIdx: number) => {
@@ -112,11 +136,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
         currentColor,
         grid,
         interpreter: interpreter.current,
+        isConsoleOpen,
         numCols: width,
         numRows: height,
+        output,
         getCellColor,
         setCellColor,
         setCurrentColor,
+        setIsConsoleOpen,
         setNumCols,
         setNumRows,
       }}

@@ -1,7 +1,7 @@
 import css from "components/grid/grid.module.css";
 import { GridControls } from "components/controls/GridDimensionControls";
 import { RunControl } from "components/controls/RunControl";
-import { ExecutionVisualizer } from "components/ExecutionVisualizer";
+import { ExecutionVisualizer } from "components/execution/ExecutionVisualizer";
 import { GridTable } from "components/grid/GridTable";
 
 export function Grid() {

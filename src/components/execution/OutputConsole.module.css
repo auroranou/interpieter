@@ -1,0 +1,31 @@
+.consoleLayer {
+  background-color: white;
+  border-left: 1px solid black;
+  height: 100vh;
+  position: absolute;
+  padding: 24px;
+  top: 0;
+  right: -50vw;
+  width: 50vw;
+  z-index: 2;
+}
+
+.consoleLayer.open {
+  right: 0;
+}
+
+.consoleHeader {
+  display: flex;
+}
+
+.consoleContent {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.closeBtn {
+  background-color: inherit;
+  border: 0;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 8px 16px;
+}

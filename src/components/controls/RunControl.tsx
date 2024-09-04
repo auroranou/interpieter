@@ -5,7 +5,7 @@ import { isValidGrid } from "state/utils";
 import css from "components/controls/RunControl.module.css";
 
 export function RunControl() {
-  const { grid, interpreter } = useAppState();
+  const { grid, interpreter, setIsConsoleOpen } = useAppState();
   const [disabled, setDisabled] = useState(!isValidGrid(grid));
 
   useEffect(() => {
@@ -13,9 +13,10 @@ export function RunControl() {
   }, [grid]);
 
   const handleClick = useCallback(() => {
+    setIsConsoleOpen(true);
     interpreter.loadGrid(grid);
     interpreter.parse();
-  }, [grid, interpreter]);
+  }, [grid, interpreter, setIsConsoleOpen]);
 
   return (
     <button className={css.runButton} disabled={disabled} onClick={handleClick}>

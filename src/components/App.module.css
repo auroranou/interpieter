@@ -4,7 +4,9 @@ main {
     "header header"
     "grid controls";
   grid-template-columns: 1fr 1fr;
+  position: relative;
   width: 100vw;
+  z-index: 0;
 }
 
 header {

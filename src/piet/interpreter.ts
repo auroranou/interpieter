@@ -18,12 +18,16 @@ export class Interpieter {
   CC: "left" | "right";
   stack: number[];
 
-  constructor() {
+  print: (val: string | number) => void;
+
+  constructor(print: (val: string | number) => void) {
     this.grid = [];
     this.EP = { row: 0, col: 0 };
     this.DP = RIGHT;
     this.CC = "left";
     this.stack = [];
+
+    this.print = print;
   }
 
   loadGrid(grid: HexGrid) {
@@ -80,18 +84,25 @@ export class Interpieter {
         // that values of colour blocks are not automatically pushed on to the
         // stack - this push operation must be explicitly carried out.
         this.stack.push(size);
+        this.print(`Push: ${size}`);
         break;
-      case "pop":
+      case "pop": {
         // Pops the top value off the stack and discards it.
-        this.stack.pop();
+        const val = this.stack.pop();
+        if (val) {
+          this.print(`Pop: ${val}`);
+        }
         break;
+      }
       case "add": {
         // Pops the top two values off the stack, adds them, and pushes the result
         // back on the stack.
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
         if (isNum(operand1) && isNum(operand2)) {
-          this.stack.push(operand1 + operand2);
+          const res = operand1 + operand2;
+          this.stack.push(res);
+          this.print(`${operand1} + ${operand2} = ${res}`);
         }
         break;
       }
@@ -101,7 +112,9 @@ export class Interpieter {
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
         if (isNum(operand1) && isNum(operand2)) {
-          this.stack.push(operand2 - operand1);
+          const res = operand2 - operand1;
+          this.stack.push(res);
+          this.print(`${operand2} - ${operand1} = ${res}`);
         }
         break;
       }
@@ -111,7 +124,9 @@ export class Interpieter {
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
         if (isNum(operand1) && isNum(operand2)) {
-          this.stack.push(operand1 * operand2);
+          const res = operand1 * operand2;
+          this.stack.push(res);
+          this.print(`${operand1} * ${operand2} = ${res}`);
         }
         break;
       }
@@ -122,7 +137,9 @@ export class Interpieter {
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
         if (isNum(operand1) && isNum(operand2) && operand1 != 0) {
-          this.stack.push(operand2 / operand1);
+          const res = operand2 / operand1;
+          this.stack.push(res);
+          this.print(`${operand2} / ${operand1} = ${res}`);
         }
         break;
       }
@@ -133,7 +150,9 @@ export class Interpieter {
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
         if (isNum(operand1) && isNum(operand2)) {
-          this.stack.push(operand2 % operand1);
+          const res = operand2 % operand1;
+          this.stack.push(res);
+          this.print(`${operand2} % ${operand1} = ${res}`);
         }
         break;
       }
@@ -142,7 +161,13 @@ export class Interpieter {
         // it is zero.
         const top = this.stack.pop();
         if (isNum(top)) {
-          this.stack.push(top === 0 ? 1 : 0);
+          if (top === 0) {
+            this.stack.push(1);
+            this.print(`not => 1`);
+          } else {
+            this.stack.push(0);
+            this.print(`not => 0`);
+          }
         }
         break;
       }
@@ -153,7 +178,13 @@ export class Interpieter {
         const operand1 = this.stack.pop();
         const operand2 = this.stack.pop();
         if (isNum(operand1) && isNum(operand2)) {
-          this.stack.push(operand2 > operand1 ? 1 : 0);
+          if (operand2 > operand1) {
+            this.stack.push(1);
+            this.print(`${operand2} > ${operand1} => 1`);
+          } else {
+            this.stack.push(0);
+            this.print(`${operand2} > ${operand1} => 1`);
+          }
         }
         break;
       }
@@ -163,6 +194,7 @@ export class Interpieter {
         const numRotations = this.stack.pop();
         if (isNum(numRotations) && numRotations > 0) {
           this.DP = rotateDirPointer(this.DP, numRotations);
+          this.print(`Rotate dir pointer: ${numRotations} times`);
         }
         break;
       }
@@ -172,13 +204,17 @@ export class Interpieter {
         const numToggles = this.stack.pop();
         if (isNum(numToggles) && numToggles > 0) {
           this.CC = toggleCodelChooser(this.CC, numToggles);
+          this.print(`Toggle codel chooser: ${numToggles} times`);
         }
         break;
       }
       case "duplicate": {
         // Pushes a copy of the top value on the stack on to the stack.
         const top = this.stack[this.stack.length - 1];
-        this.stack.push(top);
+        if (top) {
+          this.stack.push(top);
+          this.print(`Push: ${top}`);
+        }
         break;
       }
       case "roll": {
@@ -208,14 +244,16 @@ export class Interpieter {
         // number or character, depending on the particular incarnation of this
         // command.
         const val = this.stack.pop();
-        console.log(val);
+        if (val) {
+          this.print(`Out: ${val}`);
+        }
         break;
       }
       case "out-char": {
         const val = this.stack.pop();
         if (val) {
           const char = String.fromCharCode(val);
-          console.log(char);
+          this.print(`Out: ${char}`);
         }
         break;
       }
