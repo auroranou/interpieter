@@ -15,12 +15,32 @@ export function RunControl() {
   const handleClick = useCallback(() => {
     setIsConsoleOpen(true);
     interpreter.loadGrid(grid);
-    interpreter.parse();
+    interpreter.run();
   }, [grid, interpreter, setIsConsoleOpen]);
 
   return (
-    <button className={css.runButton} disabled={disabled} onClick={handleClick}>
-      Run program
-    </button>
+    <>
+      <button
+        className={css.runButton}
+        disabled={disabled}
+        onClick={handleClick}
+      >
+        Run program
+      </button>
+      <button
+        onClick={() => {
+          interpreter.step();
+        }}
+      >
+        Step
+      </button>
+      <button
+        onClick={() => {
+          interpreter.reset();
+        }}
+      >
+        Reset
+      </button>
+    </>
   );
 }

@@ -11,6 +11,8 @@ import {
 } from "piet/utils";
 import type { HexGrid } from "types";
 
+const MAX_STACK_DEPTH = 100;
+
 export class Interpieter {
   grid: HexGrid;
   EP: Coordinates;
@@ -47,45 +49,55 @@ export class Interpieter {
     this.drawEP(this.EP, this.DP);
   }
 
-  parse() {
+  run() {
     this.reset();
 
     while (true) {
-      // Identify color block and its size
-      const currBlock = getColorBlock(this.grid, this.EP);
-      const blockSize = currBlock.codels.length;
-
-      // Move through color block and determine transition to next block
-      const nextBlock = findNextColorBlock(
-        this.grid,
-        currBlock,
-        this.DP,
-        this.CC
-      );
-
-      if (!nextBlock || nextBlock.hex === BLACK) {
-        // Rotate DP if needed, handle edge cases
-        // Terminate if no further moves
-        break;
-      } else if (nextBlock.hex === WHITE) {
-        this.EP = nextBlock.codels[0];
-        continue;
-      }
-
-      // Determine command/operation associated with color block transition
-      const hueChange = getHueChange(currBlock.hex, nextBlock.hex);
-      const lightnessChange = getLightnessChange(currBlock.hex, nextBlock.hex);
-
-      // Execute command
-      const op = interpretCommand(hueChange, lightnessChange);
-      if (op) {
-        this.executeCommand(op, blockSize);
-      }
-
-      // Move to next block
-      this.EP = nextBlock.codels[0];
-      this.drawEP(this.EP, this.DP);
+      this.step();
     }
+  }
+
+  step() {
+    // Identify color block and its size
+    const currBlock = getColorBlock(this.grid, this.EP);
+    const blockSize = currBlock.codels.length;
+
+    // Move through color block and determine transition to next block
+    const nextBlock = findNextColorBlock(
+      this.grid,
+      currBlock,
+      this.DP,
+      this.CC
+    );
+
+    if (!nextBlock || nextBlock.hex === BLACK) {
+      // TODO
+      // If the Piet interpreter attempts to move into a black block or
+      // off an edge, it is stopped and the CC is toggled. The interpreter
+      // then attempts to move from its current block again. If it fails a
+      // second time, the DP is moved clockwise one step. These attempts are
+      // repeated, with the CC and DP being changed between alternate
+      // attempts. If after eight attempts the interpreter cannot leave its
+      // current colour block, there is no way out and the program terminates.
+      return;
+    } else if (nextBlock.hex === WHITE) {
+      // FIXME
+      this.EP = nextBlock.codels[0];
+    }
+
+    // Determine command/operation associated with color block transition
+    const hueChange = getHueChange(currBlock.hex, nextBlock.hex);
+    const lightnessChange = getLightnessChange(currBlock.hex, nextBlock.hex);
+
+    // Execute command
+    const op = interpretCommand(hueChange, lightnessChange);
+    if (op) {
+      this.executeCommand(op, blockSize);
+    }
+
+    // Move to next block
+    this.EP = nextBlock.codels[0];
+    this.drawEP(this.EP, this.DP);
   }
 
   executeCommand(op: Operation, size: number) {
@@ -239,6 +251,18 @@ export class Interpieter {
         // ignored. If a roll is greater than an implementation-dependent maximum
         // stack depth, it is handled as an implementation-dependent error, though
         // simply ignoring the command is recommended.
+        const numRolls = this.stack.pop();
+        const depth = this.stack.pop();
+        if (
+          isNum(numRolls) &&
+          numRolls > 0 &&
+          isNum(depth) &&
+          depth > 0 &&
+          depth < MAX_STACK_DEPTH
+        ) {
+          // TODO
+          this.print(`Roll: ${numRolls} times, ${depth} depth`);
+        }
         break;
       }
       case "in-number": {
@@ -252,9 +276,7 @@ export class Interpieter {
       case "in-char":
         break;
       case "out-number": {
-        // Pops the top value off the stack andf prints it to STDOUT as either a
-        // number or character, depending on the particular incarnation of this
-        // command.
+        // Pops the top value off the stack andf prints it to STDOUT as an ASCII character
         const val = this.stack.pop();
         if (val) {
           this.print(`Out: ${val}`);
@@ -262,6 +284,7 @@ export class Interpieter {
         break;
       }
       case "out-char": {
+        // Pops the top value off the stack andf prints it to STDOUT as a number
         const val = this.stack.pop();
         if (val) {
           const char = String.fromCharCode(val);
