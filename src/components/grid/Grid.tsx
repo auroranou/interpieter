@@ -5,12 +5,12 @@ import { GridTable } from "components/grid/GridTable";
 
 export function Grid() {
   return (
-    <div className={css.gridContainer}>
+    <section className={css.gridContainer}>
       <GridControls />
       <div className={css.gridWrapper}>
         <GridTable />
       </div>
       <RunControl />
-    </div>
+    </section>
   );
 }

@@ -1,5 +1,28 @@
 .visualizer {
+  align-items: center;
   background-color: transparent;
-  border: 1px solid blue;
+  display: flex;
+  justify-content: center;
+  border: 2px solid black;
   position: absolute;
+}
+
+.visualizer::after {
+  color: black;
+}
+
+.visualizer.arrowRight::after {
+  content: "\27A1";
+}
+
+.visualizer.arrowDown::after {
+  content: "\2B07";
+}
+
+.visualizer.arrowLeft::after {
+  content: "\2B05";
+}
+
+.visualizer.arrowUp::after {
+  content: "\2B06";
 }

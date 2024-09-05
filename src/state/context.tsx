@@ -11,6 +11,7 @@ import { useImmer } from "use-immer";
 import { LIGHT_COLORS, WHITE } from "constants/colors";
 import { DEFAULT_GRID_DIMENSION } from "constants/grid";
 import { Interpieter } from "piet/interpreter";
+import type { Coordinates, Direction } from "piet/types";
 import {
   extendGridHeight,
   extendRow,
@@ -19,17 +20,17 @@ import {
   shrinkRow,
 } from "state/utils";
 import type { HexCode, HexGrid } from "types";
-import { Coordinates } from "piet/types";
 
 type AppState = {
   currentColor: HexCode;
+  DP?: Direction;
+  EP?: Coordinates;
   grid: HexGrid;
   interpreter: Interpieter;
   isConsoleOpen: boolean;
   numCols: number;
   numRows: number;
   output: string[];
-  EP?: Coordinates;
   getCellColor: (rowIdx: number, colIdx: number) => HexCode;
   setCellColor: (rowIdx: number, colIdx: number, color: HexCode) => void;
   setCurrentColor: (color: HexCode) => void;
@@ -45,7 +46,7 @@ const defaultAppState: AppState = {
   grid: makeGrid(),
   interpreter: new Interpieter(
     noop, // print
-    noop // draw_EP
+    noop // drawEP
   ),
   isConsoleOpen: false,
   numCols: DEFAULT_GRID_DIMENSION,
@@ -69,19 +70,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [height, setHeight] = useState(DEFAULT_GRID_DIMENSION);
   const [width, setWidth] = useState(DEFAULT_GRID_DIMENSION);
   const [EP, setEP] = useState<Coordinates>();
+  const [DP, setDP] = useState<Direction>();
 
-  const print = (val: string | number) => {
+  const print = useCallback((val: string | number) => {
     console.log(val);
     setOutput((prev) => {
       return [...prev, val.toString()];
     });
-  };
+  }, []);
 
-  const draw_EP = (val: Coordinates) => {
-    setEP(val);
-  };
+  const drawEP = useCallback((coords: Coordinates, d: Direction) => {
+    setEP(coords);
+    setDP(d);
+  }, []);
 
-  const interpreter = useRef(new Interpieter(print, draw_EP));
+  const interpreter = useRef(new Interpieter(print, drawEP));
 
   const getCellColor = useCallback(
     (rowIdx: number, colIdx: number) => {
@@ -140,12 +143,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       value={{
         currentColor,
         grid,
+        DP,
+        EP,
         interpreter: interpreter.current,
         isConsoleOpen,
         numCols: width,
         numRows: height,
         output,
-        EP,
         getCellColor,
         setCellColor,
         setCurrentColor,

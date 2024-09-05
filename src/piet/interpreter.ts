@@ -19,11 +19,11 @@ export class Interpieter {
   stack: number[];
 
   print: (val: string | number) => void;
-  draw_EP: (val: Coordinates) => void;
+  drawEP: (coords: Coordinates, d: Direction) => void;
 
   constructor(
     print: (val: string | number) => void,
-    draw_EP: (val: Coordinates) => void
+    drawEP: (coords: Coordinates, d: Direction) => void
   ) {
     this.grid = [];
     this.EP = { row: 0, col: 0 };
@@ -32,18 +32,23 @@ export class Interpieter {
     this.stack = [];
 
     this.print = print;
-    this.draw_EP = draw_EP;
+    this.drawEP = drawEP;
   }
 
   loadGrid(grid: HexGrid) {
     this.grid = grid;
   }
 
-  parse() {
+  reset() {
     this.EP = { row: 0, col: 0 };
     this.DP = RIGHT;
     this.CC = "left";
     this.stack = [];
+    this.drawEP(this.EP, this.DP);
+  }
+
+  parse() {
+    this.reset();
 
     while (true) {
       // Identify color block and its size
@@ -79,7 +84,7 @@ export class Interpieter {
 
       // Move to next block
       this.EP = nextBlock.codels[0];
-      this.draw_EP(this.EP);
+      this.drawEP(this.EP, this.DP);
     }
   }
 
@@ -200,6 +205,7 @@ export class Interpieter {
         const numRotations = this.stack.pop();
         if (isNum(numRotations) && numRotations > 0) {
           this.DP = rotateDirPointer(this.DP, numRotations);
+          this.drawEP(this.EP, this.DP);
           this.print(`Rotate dir pointer: ${numRotations} times`);
         }
         break;

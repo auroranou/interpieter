@@ -4,13 +4,13 @@
 }
 
 .gridWrapper {
-  display: flex;
   align-items: center;
+  display: flex;
   height: 100%;
   justify-content: center;
 }
 
-.gridWrapper table {
+.gridWrapper > div {
   position: relative;
 }
 

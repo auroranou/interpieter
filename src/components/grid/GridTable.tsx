@@ -7,13 +7,15 @@ export function GridTable() {
   const { grid } = useAppState();
 
   return (
-    <table className={css.grid}>
+    <div>
       <ExecutionVisualizer />
-      <tbody>
-        {grid.map((row, rowIdx) => (
-          <GridRow key={rowIdx} row={row} rowIdx={rowIdx} />
-        ))}
-      </tbody>
-    </table>
+      <table className={css.grid}>
+        <tbody>
+          {grid.map((row, rowIdx) => (
+            <GridRow key={rowIdx} row={row} rowIdx={rowIdx} />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
