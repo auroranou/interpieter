@@ -29,9 +29,9 @@ export function ExecutionVisualizer() {
     <div
       className={className}
       style={{
-        left: EP.col * CODEL_SIZE,
+        left: EP.col * CODEL_SIZE + 1,
         height: CODEL_SIZE,
-        top: EP.row * CODEL_SIZE,
+        top: EP.row * CODEL_SIZE + 1,
         width: CODEL_SIZE,
       }}
     />

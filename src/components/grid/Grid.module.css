@@ -16,7 +16,8 @@
 
 .gridWrapper .grid {
   border: 1px solid lightgray;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .grid td {
