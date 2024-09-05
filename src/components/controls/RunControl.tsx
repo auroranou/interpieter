@@ -15,7 +15,7 @@ export function RunControl() {
   const handleClick = useCallback(() => {
     setIsConsoleOpen(true);
     interpreter.loadGrid(grid);
-    interpreter.run();
+    // interpreter.run();
   }, [grid, interpreter, setIsConsoleOpen]);
 
   return (

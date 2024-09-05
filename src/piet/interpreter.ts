@@ -19,19 +19,21 @@ export class Interpieter {
   DP: Direction;
   CC: "left" | "right";
   stack: number[];
+  numAttempts: number;
 
   print: (val: string | number) => void;
-  drawEP: (coords: Coordinates, d: Direction) => void;
+  drawEP: (coords: Coordinates, d: Direction, cc: "left" | "right") => void;
 
   constructor(
     print: (val: string | number) => void,
-    drawEP: (coords: Coordinates, d: Direction) => void
+    drawEP: (coords: Coordinates, d: Direction, cc: "left" | "right") => void
   ) {
     this.grid = [];
     this.EP = { row: 0, col: 0 };
     this.DP = RIGHT;
     this.CC = "left";
     this.stack = [];
+    this.numAttempts = 0;
 
     this.print = print;
     this.drawEP = drawEP;
@@ -46,7 +48,9 @@ export class Interpieter {
     this.DP = RIGHT;
     this.CC = "left";
     this.stack = [];
-    this.drawEP(this.EP, this.DP);
+    this.numAttempts = 0;
+
+    this.drawEP(this.EP, this.DP, this.CC);
   }
 
   run() {
@@ -79,8 +83,23 @@ export class Interpieter {
       // repeated, with the CC and DP being changed between alternate
       // attempts. If after eight attempts the interpreter cannot leave its
       // current colour block, there is no way out and the program terminates.
+      if (this.numAttempts === 8) {
+        throw new Error("You made bad art 💀");
+      }
+
+      if (this.numAttempts % 2 === 0) {
+        this.CC = toggleCodelChooser(this.CC, 1);
+      } else {
+        this.DP = rotateDirPointer(this.DP, 1);
+      }
+      this.drawEP(this.EP, this.DP, this.CC);
+      this.numAttempts += 1;
       return;
-    } else if (nextBlock.hex === WHITE) {
+    }
+
+    this.numAttempts = 0;
+
+    if (nextBlock.hex === WHITE) {
       // FIXME
       this.EP = nextBlock.codels[0];
     }
@@ -97,7 +116,7 @@ export class Interpieter {
 
     // Move to next block
     this.EP = nextBlock.codels[0];
-    this.drawEP(this.EP, this.DP);
+    this.drawEP(this.EP, this.DP, this.CC);
   }
 
   executeCommand(op: Operation, size: number) {
@@ -217,7 +236,7 @@ export class Interpieter {
         const numRotations = this.stack.pop();
         if (isNum(numRotations) && numRotations > 0) {
           this.DP = rotateDirPointer(this.DP, numRotations);
-          this.drawEP(this.EP, this.DP);
+          this.drawEP(this.EP, this.DP, this.CC);
           this.print(`Rotate dir pointer: ${numRotations} times`);
         }
         break;
@@ -228,6 +247,7 @@ export class Interpieter {
         const numToggles = this.stack.pop();
         if (isNum(numToggles) && numToggles > 0) {
           this.CC = toggleCodelChooser(this.CC, numToggles);
+          this.drawEP(this.EP, this.DP, this.CC);
           this.print(`Toggle codel chooser: ${numToggles} times`);
         }
         break;

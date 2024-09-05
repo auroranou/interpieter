@@ -133,7 +133,7 @@ export function toggleCodelChooser(
 ): "left" | "right" {
   const isOdd = Math.abs(numToggles) % 2;
   if (isOdd) {
-    return cc;
+    return cc === "left" ? "right" : "left";
   }
-  return cc === "left" ? "right" : "left";
+  return cc;
 }

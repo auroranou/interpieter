@@ -22,6 +22,7 @@ import {
 import type { HexCode, HexGrid } from "types";
 
 type AppState = {
+  CC?: "left" | "right";
   currentColor: HexCode;
   DP?: Direction;
   EP?: Coordinates;
@@ -71,6 +72,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [width, setWidth] = useState(DEFAULT_GRID_DIMENSION);
   const [EP, setEP] = useState<Coordinates>();
   const [DP, setDP] = useState<Direction>();
+  const [CC, setCC] = useState<"left" | "right">();
 
   const print = useCallback((val: string | number) => {
     console.log(val);
@@ -79,10 +81,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const drawEP = useCallback((coords: Coordinates, d: Direction) => {
-    setEP(coords);
-    setDP(d);
-  }, []);
+  const drawEP = useCallback(
+    (coords: Coordinates, d: Direction, cc: "left" | "right") => {
+      setEP(coords);
+      setDP(d);
+      setCC(cc);
+    },
+    []
+  );
 
   const interpreter = useRef(new Interpieter(print, drawEP));
 
@@ -141,6 +147,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   return (
     <AppContext.Provider
       value={{
+        CC,
         currentColor,
         grid,
         DP,

@@ -19,10 +19,15 @@ function getDirPointerClassName(d: Direction): string {
 }
 
 export function ExecutionVisualizer() {
-  const { DP, EP } = useAppState();
+  const { CC, DP, EP } = useAppState();
   let className = css.visualizer;
+
   if (DP) {
     className += ` ${getDirPointerClassName(DP)}`;
+  }
+
+  if (CC) {
+    className += ` ${CC === "left" ? css.left : css.right}`;
   }
 
   return EP ? (

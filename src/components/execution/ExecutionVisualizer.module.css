@@ -9,20 +9,31 @@
 
 .visualizer::after {
   color: black;
-}
-
-.visualizer.arrowRight::after {
   content: "\27A1";
 }
 
-.visualizer.arrowDown::after {
-  content: "\2B07";
+.visualizer.arrowDown {
+  transform: rotate(90deg);
 }
 
-.visualizer.arrowLeft::after {
-  content: "\2B05";
+.visualizer.arrowLeft {
+  transform: rotate(180deg);
 }
 
-.visualizer.arrowUp::after {
-  content: "\2B06";
+.visualizer.arrowUp {
+  transform: rotate(270deg);
+}
+
+.visualizer::before {
+  color: white;
+}
+
+.visualizer.left::before {
+  content: "\21FE";
+  transform: rotate(-0.25turn);
+}
+
+.visualizer.right::before {
+  content: "\21FE";
+  transform: rotate(90deg);
 }
