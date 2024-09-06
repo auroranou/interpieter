@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAppState } from "state/context";
 import { isValidGrid } from "state/utils";
 
-export function RunControl() {
+export function ExecutionControls() {
   const { grid, interpreter, setIsConsoleOpen } = useAppState();
   const [disabled, setDisabled] = useState(!isValidGrid(grid));
   const [gridLoaded, setGridLoaded] = useState(false);
@@ -27,13 +27,13 @@ export function RunControl() {
   }, [interpreter]);
 
   return (
-    <>
+    <div>
       <button disabled={disabled} onClick={handleStep}>
         Step
       </button>
       <button disabled={disabled} onClick={handleReset}>
         Reset
       </button>
-    </>
+    </div>
   );
 }
