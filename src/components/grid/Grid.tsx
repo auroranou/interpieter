@@ -1,5 +1,5 @@
 import { GridControls } from "components/controls/GridDimensionControls";
-import { RunControl } from "components/controls/RunControl";
+import { RunControl } from "components/controls/ExecutionControls";
 import css from "components/grid/grid.module.css";
 import { GridTable } from "components/grid/GridTable";
 

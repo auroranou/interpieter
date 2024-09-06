@@ -25,9 +25,13 @@ export function makeGrid(
   return Array.from(Array(numRows)).fill(makeRow(numCols));
 }
 
-export function extendGridHeight(grid: HexGrid, numRowsToAdd: number): HexGrid {
+export function extendGridHeight(
+  grid: HexGrid,
+  numRowsToAdd: number,
+  rowWidth: number = DEFAULT_GRID_DIMENSION
+): HexGrid {
   for (let i = 0; i < numRowsToAdd; i++) {
-    grid.push(makeRow());
+    grid.push(makeRow(rowWidth));
   }
   return grid;
 }

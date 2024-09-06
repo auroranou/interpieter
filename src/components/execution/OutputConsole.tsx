@@ -22,8 +22,8 @@ export function OutputConsole() {
       </div>
       <div className={css.consoleContent}>
         {output.length === 0 && "Nothing to report"}
-        {output.map((line) => (
-          <p key={line}>{line}</p>
+        {output.map((line, i) => (
+          <p key={i}>{line}</p>
         ))}
       </div>
     </div>

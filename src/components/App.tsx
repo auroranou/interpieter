@@ -2,7 +2,7 @@ import "components/App.module.css";
 import { ColorControls } from "components/controls/ColorControls";
 import { OutputConsole } from "components/execution/OutputConsole";
 import { Grid } from "components/grid/Grid";
-import { AppProvider } from "state/context";
+import { AppProvider } from "state/ContextProvider";
 
 function App() {
   return (

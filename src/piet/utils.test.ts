@@ -102,15 +102,15 @@ describe("rotateDirPointer", function () {
 
 describe("toggleCodelChooser", function () {
   it("should toggle the codel chooser the specified number of times", function () {
-    expect(toggleCodelChooser("left", 1)).toEqual("left");
-    expect(toggleCodelChooser("left", 2)).toEqual("right");
-    expect(toggleCodelChooser("left", 3)).toEqual("left");
-    expect(toggleCodelChooser("left", 4)).toEqual("right");
-    expect(toggleCodelChooser("left", 100)).toEqual("right");
+    expect(toggleCodelChooser("left", 1)).toEqual("right");
+    expect(toggleCodelChooser("left", 2)).toEqual("left");
+    expect(toggleCodelChooser("left", 3)).toEqual("right");
+    expect(toggleCodelChooser("left", 4)).toEqual("left");
+    expect(toggleCodelChooser("left", 100)).toEqual("left");
   });
 
   it("should behave the same for positive and negative numToggles", function () {
-    expect(toggleCodelChooser("left", 3)).toEqual("left");
-    expect(toggleCodelChooser("left", -3)).toEqual("left");
+    expect(toggleCodelChooser("left", 3)).toEqual("right");
+    expect(toggleCodelChooser("left", -3)).toEqual("right");
   });
 });
