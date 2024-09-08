@@ -1,3 +1,5 @@
+import Pako from "pako";
+
 import type {
   AncillaryChunkTypes,
   CriticalChunkTypes,
@@ -15,18 +17,22 @@ import {
 export class PngDecoder {
   bytes: Uint8Array;
   i: number;
+  inflator: Pako.Inflate;
 
   chunkTypes: (CriticalChunkTypes | AncillaryChunkTypes)[];
   ihdr: IHDR | null;
   plte: PLTE | null;
+  data: Uint8Array | null;
 
   constructor(bytes: Uint8Array) {
     this.bytes = bytes;
     this.i = 0;
+    this.inflator = new Pako.Inflate();
 
     this.chunkTypes = [];
     this.ihdr = null;
     this.plte = null;
+    this.data = null;
   }
 
   readBytes(numBytes: number) {
@@ -126,6 +132,14 @@ export class PngDecoder {
 
   processIDAT(chunk: PngChunk) {
     // https://www.w3.org/TR/2003/REC-PNG-20031110/#11IDAT
+    if (chunk.data) {
+      this.inflator.push(chunk.data);
+    }
+  }
+
+  extractData() {
+    // https://www.w3.org/TR/2003/REC-PNG-20031110/#10Compression
+    this.data = this.inflator.result as Uint8Array;
   }
 
   decode() {
@@ -152,5 +166,7 @@ export class PngDecoder {
     if (this.chunkTypes[this.chunkTypes.length - 1] !== "IEND") {
       throw new Error("IEND chunk is missing or in the wrong location");
     }
+
+    this.extractData();
   }
 }
