@@ -1,6 +1,7 @@
 import { ChangeEvent, useRef } from "react";
 
 import { CODEL_SIZE } from "constants/grid";
+import { PngDecoder } from "png/decoder";
 import { useAppState } from "state/context";
 
 export function UploadDownloadControls() {
@@ -58,7 +59,13 @@ export function UploadDownloadControls() {
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onload = (_: Event) => {
-      console.log(reader.result);
+      if (!reader.result || !(reader.result instanceof ArrayBuffer)) {
+        return;
+      }
+
+      const bytes = new Uint8Array(reader.result);
+      const decoder = new PngDecoder(bytes);
+      decoder.decode();
     };
   };
 
@@ -66,7 +73,7 @@ export function UploadDownloadControls() {
     <div>
       <label>
         Upload
-        <input type="file" onChange={handleUpload} />
+        <input type="file" accept="image/png" onChange={handleUpload} />
       </label>
       <button onClick={handleDownload}>Download</button>
       <canvas ref={canvasRef} style={{ display: "none" }} />
