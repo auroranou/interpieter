@@ -41,6 +41,7 @@ export class Interpieter {
 
   loadGrid(grid: HexGrid) {
     this.grid = grid;
+    this.reset();
   }
 
   reset() {
@@ -102,6 +103,7 @@ export class Interpieter {
     if (nextBlock.hex === WHITE) {
       // FIXME
       this.EP = nextBlock.codels[0];
+      return;
     }
 
     // Determine command/operation associated with color block transition

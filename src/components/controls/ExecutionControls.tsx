@@ -23,8 +23,9 @@ export function ExecutionControls() {
   }, [grid, gridLoaded, interpreter, setIsConsoleOpen]);
 
   const handleReset = useCallback(() => {
+    interpreter.loadGrid(grid);
     interpreter.reset();
-  }, [interpreter]);
+  }, [grid, interpreter]);
 
   return (
     <div>

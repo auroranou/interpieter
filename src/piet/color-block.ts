@@ -17,7 +17,9 @@ import { getCodel, getNeighbor } from "piet/utils";
 export function getColorBlock(grid: HexGrid, cell: Coordinates): ColorBlock {
   const hex = getCodel(grid, cell);
   if (!hex) {
-    throw new Error(`Invalid starting cell for color block: ${cell}`);
+    throw new Error(
+      `Invalid starting cell for color block: ${JSON.stringify(cell)}`
+    );
   }
 
   const block = new Set<string>();
