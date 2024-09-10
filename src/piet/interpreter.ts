@@ -76,7 +76,6 @@ export class Interpieter {
     );
 
     if (!nextBlock || nextBlock.hex === BLACK) {
-      // TODO
       // If the Piet interpreter attempts to move into a black block or
       // off an edge, it is stopped and the CC is toggled. The interpreter
       // then attempts to move from its current block again. If it fails a

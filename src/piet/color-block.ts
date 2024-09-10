@@ -127,10 +127,11 @@ export function findNextColorBlock(
   //    furthest to the CC's direction of the DP's direction of travel
   const codel = edge.length > 1 ? findFarthestCodel(edge, dp, cc) : edge[0];
 
-  // 3. Travel from that codel into the color block containing the codel
-  //    immediately in the direction of the DP.
-  return getColorBlock(grid, {
-    row: codel.row + dp.row,
-    col: codel.col + dp.col,
-  });
+  const nextRow = codel.row + dp.row;
+  const nextCol = codel.col + dp.col;
+  if (grid[nextRow] && grid[nextRow][nextCol]) {
+    // 3. Travel from that codel into the color block containing the codel
+    //    immediately in the direction of the DP.
+    return getColorBlock(grid, { row: nextRow, col: nextCol });
+  }
 }
