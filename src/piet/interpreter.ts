@@ -23,10 +23,12 @@ export class Interpieter {
 
   print: (val: string | number) => void;
   drawEP: (coords: Coordinates, d: Direction, cc: "left" | "right") => void;
+  showUserInput: (ep: Coordinates, type: "number" | "character") => void;
 
   constructor(
     print: (val: string | number) => void,
-    drawEP: (coords: Coordinates, d: Direction, cc: "left" | "right") => void
+    drawEP: (coords: Coordinates, d: Direction, cc: "left" | "right") => void,
+    showUserInput: (ep: Coordinates, type: "number" | "character") => void
   ) {
     this.grid = [];
     this.EP = { row: 0, col: 0 };
@@ -37,6 +39,7 @@ export class Interpieter {
 
     this.print = print;
     this.drawEP = drawEP;
+    this.showUserInput = showUserInput;
   }
 
   loadGrid(grid: HexGrid) {
@@ -292,10 +295,15 @@ export class Interpieter {
         // stack. If no input is waiting on STDIN, this is an error and the
         // command is ignored. If an integer read does not receive an integer
         // value, this is an error and the command is ignored.
+        this.showUserInput(this.EP, "number");
+        this.print("Awaiting user input");
         break;
       }
-      case "in-char":
+      case "in-char": {
+        this.showUserInput(this.EP, "character");
+        this.print("Awaiting user input");
         break;
+      }
       case "out-number": {
         // Pops the top value off the stack andf prints it to STDOUT as an ASCII character
         const val = this.stack.pop();
@@ -314,5 +322,10 @@ export class Interpieter {
         break;
       }
     }
+  }
+
+  input(val: string | number) {
+    this.stack.push(isNum(val) ? val : val.charCodeAt(0));
+    this.print(`Input: ${val}`);
   }
 }

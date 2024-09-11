@@ -12,7 +12,7 @@ import {
 } from "piet/types";
 
 export function isNum(val: unknown): val is number {
-  return typeof val === "number";
+  return typeof val === "number" && !isNaN(val);
 }
 
 export function getCodel(grid: HexGrid, codel: Coordinates) {

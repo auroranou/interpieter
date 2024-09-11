@@ -5,7 +5,7 @@ import { LIGHT_COLORS } from "constants/colors";
 import { DEFAULT_GRID_DIMENSION } from "constants/grid";
 import { Interpieter } from "piet/interpreter";
 import type { Coordinates, Direction } from "piet/types";
-import { AppContext } from "state/context";
+import { AppContext, type InputState } from "state/context";
 import {
   extendGridHeight,
   extendRow,
@@ -25,6 +25,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [EP, setEP] = useState<Coordinates>();
   const [DP, setDP] = useState<Direction>();
   const [CC, setCC] = useState<"left" | "right">();
+  const [userInput, setUserInput] = useState<InputState>();
 
   const print = useCallback(
     (val: string | number) => {
@@ -45,7 +46,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
     []
   );
 
-  const interpreter = useRef(new Interpieter(print, drawEP));
+  const hideUserInput = useCallback(() => {
+    setUserInput(undefined);
+  }, []);
+
+  const showUserInput = useCallback(
+    (ep: Coordinates, type: "number" | "character") => {
+      setUserInput({ ep, type });
+    },
+    []
+  );
+
+  const interpreter = useRef(new Interpieter(print, drawEP, showUserInput));
 
   const getCellColor = useCallback(
     (rowIdx: number, colIdx: number) => {
@@ -107,6 +119,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         grid,
         DP,
         EP,
+        hideUserInput,
         interpreter: interpreter.current,
         isConsoleOpen,
         numCols: width,
@@ -118,6 +131,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setIsConsoleOpen,
         setNumCols,
         setNumRows,
+        userInput,
       }}
     >
       {children}

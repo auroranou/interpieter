@@ -1,4 +1,5 @@
 import { ExecutionVisualizer } from "components/execution/ExecutionVisualizer";
+import { UserInput } from "components/execution/Input";
 import css from "components/grid/Grid.module.css";
 import { GridRow } from "components/grid/GridRow";
 import { useEffect, useRef } from "react";
@@ -29,8 +30,10 @@ export function GridTable() {
       setCellColorFromMouseEvent(e);
     }
 
-    function handleMouseDown(_: MouseEvent) {
-      listenForMouseMove = true;
+    function handleMouseDown(e: MouseEvent) {
+      if (e.target instanceof HTMLTableCellElement) {
+        listenForMouseMove = true;
+      }
     }
 
     function handleMouseMove(e: MouseEvent) {
@@ -50,21 +53,22 @@ export function GridTable() {
     }
 
     elem.addEventListener("click", handleClick);
-    elem.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mousedown", handleMouseDown);
     elem.addEventListener("mousemove", handleMouseMove);
-    elem.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
       elem.removeEventListener("click", handleClick);
-      elem.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mousedown", handleMouseDown);
       elem.removeEventListener("mousemove", handleMouseMove);
-      elem.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
   }, [currentColor, setCellColor]);
 
   return (
     <div>
       <ExecutionVisualizer />
+      <UserInput />
       <table className={css.grid} ref={elemRef}>
         <tbody>
           {grid.map((row, rowIdx) => (

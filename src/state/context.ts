@@ -7,6 +7,8 @@ import type { Coordinates, Direction } from "piet/types";
 import { makeGrid } from "state/utils";
 import type { HexCode, HexGrid } from "types";
 
+export type InputState = { ep: Coordinates; type: "number" | "character" };
+
 type AppState = {
   CC?: "left" | "right";
   currentColor: HexCode;
@@ -18,7 +20,9 @@ type AppState = {
   numCols: number;
   numRows: number;
   output: string[];
+  userInput?: InputState;
   getCellColor: (rowIdx: number, colIdx: number) => HexCode;
+  hideUserInput: () => void;
   setCellColor: (rowIdx: number, colIdx: number, color: HexCode) => void;
   setCurrentColor: (color: HexCode) => void;
   setIsConsoleOpen: (open: boolean) => void;
@@ -33,13 +37,15 @@ const defaultAppState: AppState = {
   grid: makeGrid(),
   interpreter: new Interpieter(
     noop, // print
-    noop // drawEP
+    noop, // drawEP
+    noop // getUserInput
   ),
   isConsoleOpen: false,
   numCols: DEFAULT_GRID_DIMENSION,
   numRows: DEFAULT_GRID_DIMENSION,
   output: [],
   getCellColor: () => WHITE,
+  hideUserInput: noop,
   setCellColor: noop,
   setCurrentColor: noop,
   setIsConsoleOpen: noop,
