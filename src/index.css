@@ -1,4 +1,12 @@
 :root {
+  --border: 4px solid black;
+  --header-height: 76px;
+
+  --blue: #0000c0;
+  --red: #c00000;
+  --yellow: #c0c000;
+  --neutral: #eee;
+
   color-scheme: light dark;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;

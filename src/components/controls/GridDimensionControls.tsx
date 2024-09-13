@@ -18,8 +18,8 @@ export function GridControls() {
 
   return (
     <div className={css.gridControls}>
-      <label htmlFor="grid-width">
-        <span>Width</span>
+      <span className={css.input}>
+        <label htmlFor="grid-width">Width</label>
         <input
           id="grid-width"
           type="number"
@@ -28,9 +28,9 @@ export function GridControls() {
           onChange={handleWidthChange}
           value={numCols}
         />
-      </label>
-      <label htmlFor="grid-height">
-        <span>Height</span>
+      </span>
+      <span className={css.input}>
+        <label htmlFor="grid-height">Height</label>
         <input
           id="grid-height"
           type="number"
@@ -39,7 +39,7 @@ export function GridControls() {
           onChange={handleHeightChange}
           value={numRows}
         />
-      </label>
+      </span>
     </div>
   );
 }

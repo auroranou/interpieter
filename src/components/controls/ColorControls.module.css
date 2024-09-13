@@ -1,22 +1,24 @@
 .colorControls {
-  grid-area: controls;
-  margin: 24px 48px 24px 24px;
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .colorControlRow {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 1em;
 }
 
 .colorControlItem {
   z-index: 0;
 }
 
+.colorControlItem input {
+  opacity: 0;
+}
+
 .colorSwatch {
-  border: 1px solid gray;
   display: inline-block;
-  height: 36px;
+  height: 60px;
   width: 100%;
 }
 

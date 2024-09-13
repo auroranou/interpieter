@@ -66,16 +66,18 @@ export function GridTable() {
   }, [currentColor, setCellColor]);
 
   return (
-    <div>
-      <ExecutionVisualizer />
-      <UserInput />
-      <table className={css.grid} ref={elemRef}>
-        <tbody>
-          {grid.map((row, rowIdx) => (
-            <GridRow key={rowIdx} row={row} rowIdx={rowIdx} />
-          ))}
-        </tbody>
-      </table>
+    <div className={css.gridWrapper}>
+      <div>
+        <ExecutionVisualizer />
+        <UserInput />
+        <table className={css.grid} ref={elemRef}>
+          <tbody>
+            {grid.map((row, rowIdx) => (
+              <GridRow key={rowIdx} row={row} rowIdx={rowIdx} />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -1,14 +1,34 @@
 main {
   display: grid;
   grid-template-areas:
-    "header header"
-    "grid controls";
-  grid-template-columns: 1fr 1fr;
+    "header-text header-blank header-tab"
+    "grid controls .";
+  grid-template-columns: minmax(max-content, 2fr) 1fr var(--header-height);
+  grid-template-rows: var(--header-height) calc(100vh - var(--header-height));
   position: relative;
   width: 100vw;
   z-index: 0;
 }
 
 header {
+  border-bottom: var(--border);
+  border-right: var(--border);
+  grid-area: header-text;
   padding: 12px 48px;
+}
+
+.headerBlank {
+  background: var(--red);
+  border-bottom: var(--border);
+  grid-area: header-blank;
+}
+
+.gridContainer {
+  border-right: var(--border);
+  grid-area: grid;
+  padding: 24px 24px 24px 48px;
+}
+
+.controlsContainer {
+  grid-area: controls;
 }

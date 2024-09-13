@@ -1,5 +1,6 @@
 import { ChangeEvent, useRef } from "react";
 
+import css from "components/controls/UploadDownloadControls.module.css";
 import { CODEL_SIZE } from "constants/grid";
 import { PngDecoder } from "png/decoder";
 import { useAppState } from "state/context";
@@ -70,7 +71,7 @@ export function UploadDownloadControls() {
   };
 
   return (
-    <div>
+    <div className={css.uploadDownloadControls}>
       <label>
         Upload
         <input type="file" accept="image/png" onChange={handleUpload} />

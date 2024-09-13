@@ -1,8 +1,3 @@
-.gridContainer {
-  grid-area: grid;
-  margin: 24px 24px 24px 48px;
-}
-
 .gridWrapper {
   align-items: center;
   display: flex;
@@ -15,11 +10,11 @@
 }
 
 .gridWrapper .grid {
-  border: 1px solid lightgray;
+  border: 1px solid var(--neutral);
   border-collapse: separate;
   border-spacing: 0;
 }
 
 .grid td {
-  border: 1px solid lightgray;
+  border: 1px solid var(--neutral);
 }

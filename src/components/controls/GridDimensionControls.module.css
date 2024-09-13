@@ -3,10 +3,26 @@
   justify-content: space-between;
 }
 
-.gridControls label {
-  flex: 1;
+.input {
+  align-items: baseline;
+  border: 1px solid black;
+  display: flex;
+  width: 100%;
 }
 
-.gridControls input {
-  width: 100%;
+.input label {
+  background-color: #eee;
+  border-right: 1px solid black;
+  padding: 4px 8px;
+}
+
+.input input {
+  border: 0;
+  border-radius: none;
+  flex-grow: 1;
+  padding: 4px 8px;
+}
+
+.input + .input {
+  margin-left: 16px;
 }
