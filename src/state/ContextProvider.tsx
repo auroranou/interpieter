@@ -4,7 +4,7 @@ import { useImmer } from "use-immer";
 import { LIGHT_COLORS } from "constants/colors";
 import { DEFAULT_GRID_DIMENSION } from "constants/grid";
 import { Interpieter } from "piet/interpreter";
-import type { Coordinates, Direction } from "piet/types";
+import type { CodelChoice, Coordinates, Direction } from "piet/types";
 import { AppContext, type InputState } from "state/context";
 import {
   extendGridHeight,
@@ -24,7 +24,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [width, setWidth] = useState(DEFAULT_GRID_DIMENSION);
   const [EP, setEP] = useState<Coordinates>();
   const [DP, setDP] = useState<Direction>();
-  const [CC, setCC] = useState<"left" | "right">();
+  const [CC, setCC] = useState<CodelChoice>();
   const [userInput, setUserInput] = useState<InputState>();
 
   const print = useCallback(
@@ -38,7 +38,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   );
 
   const drawEP = useCallback(
-    (coords: Coordinates, d: Direction, cc: "left" | "right") => {
+    (coords: Coordinates, d: Direction, cc: CodelChoice) => {
       setEP(coords);
       setDP(d);
       setCC(cc);

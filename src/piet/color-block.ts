@@ -1,5 +1,6 @@
 import type { HexGrid } from "types";
 import {
+  type CodelChoice,
   type ColorBlock,
   type Coordinates,
   DIRECTIONS,
@@ -88,7 +89,7 @@ function findFarthestEdge(
 function findFarthestCodel(
   edge: Coordinates[],
   dp: Direction,
-  cc: "left" | "right"
+  cc: CodelChoice
 ): Coordinates {
   // Choose uppermost codel
   if ((dp === RIGHT && cc === "left") || (dp === LEFT && cc === "right")) {
@@ -117,7 +118,7 @@ export function findNextColorBlock(
   grid: HexGrid,
   block: ColorBlock,
   dp: Direction,
-  cc: "left" | "right"
+  cc: CodelChoice
 ): ColorBlock | undefined {
   // 1. Find the edge of the current color block which is furthest in the
   //    direction of the DP

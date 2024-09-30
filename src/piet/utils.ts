@@ -1,15 +1,16 @@
 import { COLOR_MAP, HUE_CYCLE } from "constants/colors";
-import type { HexCode, HexGrid } from "types";
 import {
   type Codel,
+  type CodelChoice,
   type Coordinates,
   type Direction,
   DOWN,
   LEFT,
-  Operation,
+  type Operation,
   RIGHT,
   UP,
 } from "piet/types";
+import type { HexCode, HexGrid } from "types";
 
 export function isNum(val: unknown): val is number {
   return typeof val === "number" && !isNaN(val);
@@ -128,9 +129,9 @@ export function rotateDirPointer(
 }
 
 export function toggleCodelChooser(
-  cc: "left" | "right",
+  cc: CodelChoice,
   numToggles: number
-): "left" | "right" {
+): CodelChoice {
   const isOdd = Math.abs(numToggles) % 2;
   if (isOdd) {
     return cc === "left" ? "right" : "left";

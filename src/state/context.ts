@@ -3,14 +3,14 @@ import { createContext, useContext } from "react";
 import { LIGHT_COLORS, WHITE } from "constants/colors";
 import { DEFAULT_GRID_DIMENSION } from "constants/grid";
 import { Interpieter } from "piet/interpreter";
-import type { Coordinates, Direction } from "piet/types";
+import type { CodelChoice, Coordinates, Direction } from "piet/types";
 import { makeGrid } from "state/utils";
 import type { HexCode, HexGrid } from "types";
 
 export type InputState = { ep: Coordinates; type: "number" | "character" };
 
 type AppState = {
-  CC?: "left" | "right";
+  CC?: CodelChoice;
   currentColor: HexCode;
   DP?: Direction;
   EP?: Coordinates;

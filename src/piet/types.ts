@@ -11,6 +11,7 @@ export const UP: Coordinates = { row: -1, col: 0 };
 export const DIRECTIONS = [RIGHT, DOWN, LEFT, UP];
 
 export type Direction = typeof RIGHT | typeof LEFT | typeof DOWN | typeof UP;
+export type CodelChoice = "left" | "right";
 
 export type Operation =
   | "push"
