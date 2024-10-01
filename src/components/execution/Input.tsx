@@ -4,7 +4,7 @@ import css from "components/execution/Input.module.css";
 import { useAppState } from "state/context";
 
 export function UserInput() {
-  const { hideUserInput, interpreter, userInput } = useAppState();
+  const { hideUserInput, userInput } = useAppState();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [val, setVal] = useState("");
   const [disabled, setDisabled] = useState(false);
@@ -27,7 +27,7 @@ export function UserInput() {
 
   const handleClick = () => {
     if (val && userInput) {
-      interpreter.input(val);
+      console.log(val);
     }
 
     hideUserInput();

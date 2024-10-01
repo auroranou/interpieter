@@ -1,10 +1,10 @@
-import { ReactNode, useCallback, useRef, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { useImmer } from "use-immer";
 
 import { LIGHT_COLORS } from "constants/colors";
 import { DEFAULT_GRID_DIMENSION } from "constants/grid";
-import { Interpieter } from "piet/interpreter";
-import type { CodelChoice, Coordinates, Direction } from "piet/types";
+import { step } from "piet/interpreter";
+import { getInitialState } from "piet/utils";
 import { AppContext, type InputState } from "state/context";
 import {
   extendGridHeight,
@@ -14,50 +14,20 @@ import {
   shrinkRow,
 } from "state/utils";
 import type { HexCode } from "types";
+import { InterpreterState } from "piet/types";
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [currentColor, setCurrentColor] = useState(LIGHT_COLORS[0]);
   const [grid, setGrid] = useImmer(makeGrid());
+  const [history, setHistory] = useImmer<InterpreterState[]>([]);
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);
-  const [output, setOutput] = useImmer<string[]>([]);
   const [height, setHeight] = useState(DEFAULT_GRID_DIMENSION);
   const [width, setWidth] = useState(DEFAULT_GRID_DIMENSION);
-  const [EP, setEP] = useState<Coordinates>();
-  const [DP, setDP] = useState<Direction>();
-  const [CC, setCC] = useState<CodelChoice>();
   const [userInput, setUserInput] = useState<InputState>();
-
-  const print = useCallback(
-    (val: string | number) => {
-      console.log(val);
-      setOutput((draft) => {
-        draft.push(val.toString());
-      });
-    },
-    [setOutput]
-  );
-
-  const drawEP = useCallback(
-    (coords: Coordinates, d: Direction, cc: CodelChoice) => {
-      setEP(coords);
-      setDP(d);
-      setCC(cc);
-    },
-    []
-  );
 
   const hideUserInput = useCallback(() => {
     setUserInput(undefined);
   }, []);
-
-  const showUserInput = useCallback(
-    (ep: Coordinates, type: "number" | "character") => {
-      setUserInput({ ep, type });
-    },
-    []
-  );
-
-  const interpreter = useRef(new Interpieter(print, drawEP, showUserInput));
 
   const getCellColor = useCallback(
     (rowIdx: number, colIdx: number) => {
@@ -111,26 +81,46 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [setGrid, width]
   );
 
+  const reset = useCallback(() => {
+    setHistory([getInitialState()]);
+  }, [setHistory]);
+
+  const stepBackward = useCallback(() => {
+    setHistory((draft) => {
+      draft.pop();
+    });
+  }, [setHistory]);
+
+  const stepForward = useCallback(() => {
+    const currState = history.length
+      ? history[history.length - 1]
+      : getInitialState();
+    const nextState = step(grid, currState);
+
+    setHistory((draft) => {
+      draft.push(nextState);
+    });
+  }, [grid, history, setHistory]);
+
   return (
     <AppContext.Provider
       value={{
-        CC,
         currentColor,
         grid,
-        DP,
-        EP,
         hideUserInput,
-        interpreter: interpreter.current,
+        history,
         isConsoleOpen,
         numCols: width,
         numRows: height,
-        output,
         getCellColor,
+        reset,
         setCellColor,
         setCurrentColor,
         setIsConsoleOpen,
         setNumCols,
         setNumRows,
+        stepBackward,
+        stepForward,
         userInput,
       }}
     >

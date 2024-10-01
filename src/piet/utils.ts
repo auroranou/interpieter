@@ -5,15 +5,38 @@ import {
   type Coordinates,
   type Direction,
   DOWN,
+  InterpreterState,
   LEFT,
   type Operation,
   RIGHT,
+  type StepSideEffect,
   UP,
 } from "piet/types";
 import type { HexCode, HexGrid } from "types";
 
+export function makePrintSideEffect(msg: string): StepSideEffect {
+  return { type: "print", message: msg };
+}
+
 export function isNum(val: unknown): val is number {
   return typeof val === "number" && !isNaN(val);
+}
+
+export function getNum(val: unknown): number {
+  if (isNum(val)) {
+    return val;
+  }
+  return 0;
+}
+
+export function getInitialState(): InterpreterState {
+  return {
+    CC: "left",
+    DP: RIGHT,
+    EP: { row: 0, col: 0 },
+    numAttempts: 1,
+    stack: [],
+  };
 }
 
 export function getCodel(grid: HexGrid, codel: Coordinates) {

@@ -4,7 +4,16 @@ import css from "components/execution/OutputConsole.module.css";
 import { useAppState } from "state/context";
 
 export function OutputConsole() {
-  const { isConsoleOpen, output, setIsConsoleOpen } = useAppState();
+  const { history, isConsoleOpen, setIsConsoleOpen } = useAppState();
+  const output = history.reduce((acc: string[], curr) => {
+    if (
+      curr.sideEffect?.type === "print" ||
+      curr.sideEffect?.type === "terminate"
+    ) {
+      acc.push(curr.sideEffect.message);
+    }
+    return acc;
+  }, []);
 
   return (
     <div className={cx(css.consoleLayer, { [css.open]: isConsoleOpen })}>

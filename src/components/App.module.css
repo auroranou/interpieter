@@ -25,6 +25,8 @@ header {
 
 .gridContainer {
   border-right: var(--border);
+  display: flex;
+  flex-direction: column;
   grid-area: grid;
   padding: 24px 24px 24px 48px;
 }

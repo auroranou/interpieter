@@ -31,3 +31,20 @@ export type Operation =
   | "in-char"
   | "out-number"
   | "out-char";
+
+export type StepSideEffect =
+  | {
+      type: "print";
+      message: string;
+    }
+  | { type: "terminate"; message: string }
+  | { type: "input"; getInput: (ep: Coordinates) => Promise<string | number> };
+
+export type InterpreterState = {
+  CC: CodelChoice;
+  DP: Direction;
+  EP: Coordinates;
+  numAttempts: number;
+  sideEffect?: StepSideEffect;
+  stack: number[];
+};

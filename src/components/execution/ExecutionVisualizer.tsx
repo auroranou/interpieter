@@ -1,6 +1,16 @@
+import cx from "classnames";
+import { useEffect, useState } from "react";
+
 import css from "components/execution/ExecutionVisualizer.module.css";
 import { CODEL_SIZE } from "constants/grid";
-import { type Direction, DOWN, LEFT, RIGHT, UP } from "piet/types";
+import {
+  type Direction,
+  DOWN,
+  InterpreterState,
+  LEFT,
+  RIGHT,
+  UP,
+} from "piet/types";
 import { useAppState } from "state/context";
 
 function getDirPointerClassName(d: Direction): string {
@@ -19,24 +29,25 @@ function getDirPointerClassName(d: Direction): string {
 }
 
 export function ExecutionVisualizer() {
-  const { CC, DP, EP } = useAppState();
-  let className = css.visualizer;
+  const { history } = useAppState();
+  const [currStep, setCurrStep] = useState<InterpreterState>();
 
-  if (DP) {
-    className += ` ${getDirPointerClassName(DP)}`;
-  }
+  useEffect(() => {
+    const lastStep = history.length ? history[history.length - 1] : undefined;
+    setCurrStep(lastStep);
+  }, [history]);
 
-  if (CC) {
-    className += ` ${CC === "left" ? css.left : css.right}`;
-  }
-
-  return EP ? (
+  return currStep?.EP ? (
     <div
-      className={className}
+      className={cx(css.visualizer, {
+        [getDirPointerClassName(currStep.DP!)]: currStep?.DP != null,
+        [css.left]: currStep?.CC === "left",
+        [css.right]: currStep?.CC === "right",
+      })}
       style={{
-        left: EP.col * CODEL_SIZE + 1,
+        left: currStep.EP.col * CODEL_SIZE + 1,
         height: CODEL_SIZE,
-        top: EP.row * CODEL_SIZE + 1,
+        top: currStep.EP.row * CODEL_SIZE + 1,
         width: CODEL_SIZE,
       }}
     />
