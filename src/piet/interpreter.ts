@@ -66,7 +66,7 @@ export function step(grid: HexGrid, state: InterpreterState): InterpreterState {
   });
 }
 
-function executeCommand(
+export function executeCommand(
   state: InterpreterState,
   op: Operation,
   size: number
@@ -245,8 +245,21 @@ function executeCommand(
         const { stack } = draft;
         const numRolls = getNum(stack.pop());
         const depth = getNum(stack.pop());
-        if (numRolls > 0 && depth > 0 && depth < MAX_STACK_DEPTH) {
-          // TODO
+        if (
+          numRolls > 0 &&
+          numRolls < MAX_STACK_DEPTH &&
+          depth > 0 &&
+          depth < stack.length
+        ) {
+          for (let i = 0; i < numRolls; i++) {
+            const tail = stack.splice(stack.length - depth - 1);
+            const top = tail.pop();
+            if (top) {
+              stack.push(top);
+            }
+            stack.push(...tail);
+          }
+
           draft.sideEffect = makePrintSideEffect(
             `Roll: ${numRolls} times, ${depth} depth`
           );

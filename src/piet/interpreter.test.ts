@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import * as c from "constants/colors";
-import { step } from "piet/interpreter";
+import { executeCommand, step } from "piet/interpreter";
 import { DOWN, InterpreterState, StepSideEffect, UP } from "piet/types";
 import { getInitialState } from "piet/utils";
 import type { HexGrid } from "types";
@@ -244,6 +244,14 @@ describe("commands", function () {
 
   it("should handle the roll operation", function () {
     // Hue change = 4 steps; lightness change = 1 darker
+    const { stack, sideEffect } = executeCommand(
+      { ...getInitialState(), stack: [7, 6, 5, 4, 3, 2] },
+      "roll",
+      10
+    );
+    expect(stack).toHaveLength(4);
+    expect(stack).toEqual([5, 4, 7, 6]);
+    expectPrintMsg("Roll: 2 times, 3 depth", sideEffect);
   });
 
   it("should handle numerical input", function () {
