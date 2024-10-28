@@ -1,30 +1,29 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useAppState } from "state/context";
-import { isValidGrid } from "state/utils";
+import {
+  useExecutionControls,
+  useExecutionHistory,
+  useIsValidGrid,
+  useOutputConsole,
+} from "state/selectors";
 
 export function ExecutionControls() {
-  const {
-    grid,
-    history,
-    isConsoleOpen,
-    reset,
-    setIsConsoleOpen,
-    stepBackward,
-    stepForward,
-  } = useAppState();
+  const history = useExecutionHistory();
+  const isValidGrid = useIsValidGrid();
+  const { reset, stepBackward, stepForward } = useExecutionControls();
+  const { isConsoleOpen, setIsConsoleOpen } = useOutputConsole();
 
-  const [backDisabled, setBackDisabled] = useState(!isValidGrid(grid));
-  const [forwardDisabled, setForwardDisabled] = useState(!isValidGrid(grid));
+  const [backDisabled, setBackDisabled] = useState(!isValidGrid);
+  const [forwardDisabled, setForwardDisabled] = useState(!isValidGrid);
 
   useEffect(() => {
-    const allDisabled = !isValidGrid(grid);
+    const allDisabled = !isValidGrid;
     const lastStep = history.length ? history[history.length - 1] : undefined;
     const forwardDisabled = lastStep?.sideEffect?.type === "terminate";
 
     setBackDisabled(allDisabled || !lastStep);
     setForwardDisabled(allDisabled || forwardDisabled);
-  }, [grid, history]);
+  }, [history, isValidGrid]);
 
   const handleForward = useCallback(() => {
     if (!isConsoleOpen) {
@@ -41,7 +40,7 @@ export function ExecutionControls() {
       <button disabled={forwardDisabled} onClick={handleForward}>
         forward
       </button>
-      <button disabled={!history.length || !isValidGrid(grid)} onClick={reset}>
+      <button disabled={!history.length || !isValidGrid} onClick={reset}>
         reset
       </button>
     </div>

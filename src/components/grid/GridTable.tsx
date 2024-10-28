@@ -1,13 +1,21 @@
+import { useEffect, useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
+
 import { ExecutionVisualizer } from "components/execution/ExecutionVisualizer";
 import { UserInput } from "components/execution/Input";
 import css from "components/grid/Grid.module.css";
 import { GridRow } from "components/grid/GridRow";
-import { useEffect, useRef } from "react";
-import { useAppState } from "state/context";
+import { useAppStore } from "state/store";
 
 export function GridTable() {
   const elemRef = useRef<HTMLTableElement | null>(null);
-  const { currentColor, grid, setCellColor } = useAppState();
+  const { currentColor, grid, setCellColor } = useAppStore(
+    useShallow((state) => ({
+      currentColor: state.currentColor,
+      grid: state.grid,
+      setCellColor: state.setCellColor,
+    }))
+  );
 
   useEffect(() => {
     const elem = elemRef.current;

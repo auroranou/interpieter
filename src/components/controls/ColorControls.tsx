@@ -1,4 +1,5 @@
 import { type ChangeEvent } from "react";
+import { useShallow } from "zustand/react/shallow";
 
 import css from "components/controls/ColorControls.module.css";
 import {
@@ -8,7 +9,7 @@ import {
   NORMAL_COLORS,
   WHITE,
 } from "constants/colors";
-import { useAppState } from "state/context";
+import { useAppStore } from "state/store";
 import type { HexCode } from "types";
 
 type ColorControlRowProps = {
@@ -17,7 +18,12 @@ type ColorControlRowProps = {
 };
 
 function ColorControlRow({ colors, groupName }: ColorControlRowProps) {
-  const { currentColor, setCurrentColor } = useAppState();
+  const { currentColor, setCurrentColor } = useAppStore(
+    useShallow((state) => ({
+      currentColor: state.currentColor,
+      setCurrentColor: state.setCurrentColor,
+    }))
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value;

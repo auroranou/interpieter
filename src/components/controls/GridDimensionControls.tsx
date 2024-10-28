@@ -1,19 +1,19 @@
 import type { ChangeEvent } from "react";
 
 import css from "components/controls/GridDimensionControls.module.css";
-import { useAppState } from "state/context";
+import { useGridDimensions } from "state/selectors";
 
 export function GridControls() {
-  const { numCols, numRows, setNumCols, setNumRows } = useAppState();
+  const { height, setHeight, setWidth, width } = useGridDimensions();
 
   const handleWidthChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value;
-    setNumCols(+val);
+    setWidth(+val);
   };
 
   const handleHeightChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.currentTarget.value;
-    setNumRows(+val);
+    setHeight(+val);
   };
 
   return (
@@ -26,7 +26,7 @@ export function GridControls() {
           min={2}
           max={30}
           onChange={handleWidthChange}
-          value={numCols}
+          value={width}
         />
       </span>
       <span className={css.input}>
@@ -37,7 +37,7 @@ export function GridControls() {
           min={2}
           max={30}
           onChange={handleHeightChange}
-          value={numRows}
+          value={height}
         />
       </span>
     </div>

@@ -1,10 +1,11 @@
 import cx from "classnames";
 
 import css from "components/execution/OutputConsole.module.css";
-import { useAppState } from "state/context";
+import { useExecutionHistory, useOutputConsole } from "state/selectors";
 
 export function OutputConsole() {
-  const { history, isConsoleOpen, setIsConsoleOpen } = useAppState();
+  const history = useExecutionHistory();
+  const { isConsoleOpen, setIsConsoleOpen } = useOutputConsole();
   const output = history.reduce((acc: string[], curr) => {
     if (
       curr.sideEffect?.type === "print" ||

@@ -3,10 +3,11 @@ import { ChangeEvent, useRef } from "react";
 import css from "components/controls/UploadDownloadControls.module.css";
 import { CODEL_SIZE } from "constants/grid";
 import { PngDecoder } from "png/decoder";
-import { useAppState } from "state/context";
+import { useGrid, useGridDimensions } from "state/selectors";
 
 export function UploadDownloadControls() {
-  const { grid, numCols, numRows } = useAppState();
+  const grid = useGrid();
+  const { height, width } = useGridDimensions();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const linkRef = useRef<HTMLAnchorElement | null>(null);
 
@@ -22,8 +23,8 @@ export function UploadDownloadControls() {
       return;
     }
 
-    canvas.width = numCols * CODEL_SIZE;
-    canvas.height = numRows * CODEL_SIZE;
+    canvas.width = width * CODEL_SIZE;
+    canvas.height = height * CODEL_SIZE;
 
     for (let i = 0; i < grid.length; i++) {
       const row = grid[i];

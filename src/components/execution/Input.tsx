@@ -1,10 +1,11 @@
 import { type ChangeEvent, useEffect, useRef, useState } from "react";
 
 import css from "components/execution/Input.module.css";
-import { useAppState } from "state/context";
 
 export function UserInput() {
-  const { hideUserInput, userInput } = useAppState();
+  // const { hideUserInput, userInput } = useAppState();
+  const userInput = null;
+  const hideUserInput = () => {};
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [val, setVal] = useState("");
   const [disabled, setDisabled] = useState(false);

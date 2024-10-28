@@ -11,7 +11,7 @@ import {
   RIGHT,
   UP,
 } from "piet/types";
-import { useAppState } from "state/context";
+import { useExecutionHistory } from "state/selectors";
 
 function getDirPointerClassName(d: Direction): string {
   switch (d) {
@@ -29,7 +29,7 @@ function getDirPointerClassName(d: Direction): string {
 }
 
 export function ExecutionVisualizer() {
-  const { history } = useAppState();
+  const history = useExecutionHistory();
   const [currStep, setCurrStep] = useState<InterpreterState>();
 
   useEffect(() => {

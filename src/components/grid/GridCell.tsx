@@ -1,5 +1,5 @@
 import { CODEL_SIZE } from "constants/grid";
-import { useAppState } from "state/context";
+import { useGetCellColor } from "state/selectors";
 
 type GridCellProps = {
   colIdx: number;
@@ -7,7 +7,7 @@ type GridCellProps = {
 };
 
 export function GridCell({ colIdx, rowIdx }: GridCellProps) {
-  const { getCellColor } = useAppState();
+  const getCellColor = useGetCellColor();
   const cellColor = getCellColor(rowIdx, colIdx);
 
   return (
