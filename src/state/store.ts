@@ -16,13 +16,17 @@ import {
 } from "state/utils";
 import { HexCode, HexGrid } from "types";
 
-type AppStore = {
+type AppState = {
   currentColor: HexCode;
   grid: HexGrid;
   height: number;
   history: InterpreterState[];
   isConsoleOpen: boolean;
   mode: "drawing" | "execution";
+  width: number;
+};
+
+type AppActions = {
   reset: () => void;
   setCellColor: (rowIdx: number, colIdx: number, color: HexCode) => void;
   setCurrentColor: (color: HexCode) => void;
@@ -32,9 +36,9 @@ type AppStore = {
   setWidth: (width: number) => void;
   stepBackward: () => void;
   stepForward: () => void;
-  width: number;
 };
 
+type AppStore = AppState & AppActions;
 type AppSelector<T> = (state: AppStore) => T;
 
 export const store = createStore<AppStore>((set, get) => ({
