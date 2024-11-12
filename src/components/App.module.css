@@ -1,11 +1,6 @@
 .main {
-  display: grid;
-  grid-template-areas:
-    "header header"
-    "grid sidebar"
-    "footer footer";
-  grid-template-columns: 1fr 400px;
-  grid-template-rows: var(--header-height) 1fr calc(var(--header-height) / 2);
+  display: flex;
+  flex-flow: column nowrap;
   min-height: 100vh;
 }
 
@@ -13,12 +8,18 @@
   align-items: baseline;
   border-bottom: 1px solid light-dark(black, white);
   display: flex;
-  grid-area: header;
   padding: 1em 2em;
 }
 
 .headerToggle {
   margin-left: auto;
+}
+
+.content {
+  display: grid;
+  flex-grow: 1;
+  grid-template-areas: "grid sidebar";
+  grid-template-columns: 1fr 400px;
 }
 
 .grid {
