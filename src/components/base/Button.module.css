@@ -1,0 +1,6 @@
+.button {
+  background-color: light-dark(var(--gray-light), var(--gray-dark));
+  border-radius: 0;
+  border: 1px solid light-dark(black, white);
+  padding: 4px 8px;
+}

@@ -6,6 +6,8 @@
   --red: #c00000;
   --yellow: #c0c000;
   --neutral: #eee;
+  --gray-dark: rgb(84, 84, 86);
+  --gray-light: rgb(174, 174, 178);
 
   color-scheme: light dark;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

@@ -265,7 +265,6 @@ export function executeCommand(
           );
         }
       });
-      break;
     }
     case "in-number": {
       // Reads a value from STDIN as either a number or character, depending on

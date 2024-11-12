@@ -1,36 +1,36 @@
-main {
+.main {
   display: grid;
   grid-template-areas:
-    "header-text header-blank header-tab"
-    "grid controls .";
-  grid-template-columns: minmax(max-content, 2fr) 1fr var(--header-height);
-  grid-template-rows: var(--header-height) calc(100vh - var(--header-height));
-  position: relative;
-  width: 100vw;
-  z-index: 0;
+    "header header"
+    "grid sidebar"
+    "footer footer";
+  grid-template-columns: 1fr 400px;
+  grid-template-rows: var(--header-height) 1fr calc(var(--header-height) / 2);
+  min-height: 100vh;
 }
 
-header {
-  border-bottom: var(--border);
-  border-right: var(--border);
-  grid-area: header-text;
-  padding: 12px 48px;
-}
-
-.headerBlank {
-  background: var(--red);
-  border-bottom: var(--border);
-  grid-area: header-blank;
-}
-
-.gridContainer {
-  border-right: var(--border);
+.header {
+  align-items: baseline;
+  border-bottom: 1px solid light-dark(black, white);
   display: flex;
-  flex-direction: column;
-  grid-area: grid;
-  padding: 24px 24px 24px 48px;
+  grid-area: header;
+  padding: 1em 2em;
 }
 
-.controlsContainer {
-  grid-area: controls;
+.headerToggle {
+  margin-left: auto;
+}
+
+.grid {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  grid-area: grid;
+  justify-content: center;
+  position: relative;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  padding: 2em;
 }

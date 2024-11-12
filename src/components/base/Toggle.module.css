@@ -1,0 +1,44 @@
+.toggle {
+  --toggle-height: 24px;
+  --toggle-width: 48px;
+  --indicator-size: calc(var(--toggle-height) - 6px);
+}
+
+.toggle input[role="switch"] {
+  opacity: 0;
+}
+
+.toggle .component {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.toggle .indicator {
+  background-color: light-dark(var(--gray-light), var(--gray-dark));
+  border-radius: 12px;
+  height: var(--toggle-height);
+  margin: 0 8px;
+  position: relative;
+  width: var(--toggle-width);
+}
+
+.toggle .indicator::after {
+  background: linear-gradient(45deg, #dedede, #fff);
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  content: "";
+  height: var(--indicator-size);
+  position: absolute;
+  top: 3px;
+  transition: left 250ms;
+  width: var(--indicator-size);
+}
+
+.toggle.checked .indicator::after {
+  left: 3px;
+}
+
+.toggle:not(.checked) .indicator::after {
+  left: calc(var(--toggle-width) - var(--indicator-size) - 3px);
+}

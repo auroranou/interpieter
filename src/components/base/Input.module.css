@@ -1,0 +1,23 @@
+.input {
+  align-items: baseline;
+  border: 1px solid light-dark(black, white);
+  display: flex;
+  width: 100%;
+}
+
+.input label {
+  background-color: light-dark(var(--gray-light), var(--gray-dark));
+  border-right: 1px solid light-dark(black, white);
+  padding: 4px 8px;
+}
+
+.input input {
+  border: 0;
+  border-radius: none;
+  flex-grow: 1;
+  padding: 4px 8px;
+}
+
+.input + .input {
+  margin-left: 16px;
+}

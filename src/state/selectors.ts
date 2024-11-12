@@ -7,6 +7,14 @@ import { isValidGrid } from "state/utils";
 export const useGrid = () => useAppStore((state) => state.grid);
 export const useExecutionHistory = () => useAppStore((state) => state.history);
 
+export const useMode = () =>
+  useAppStore(
+    useShallow((state) => ({
+      mode: state.mode,
+      setMode: state.setMode,
+    }))
+  );
+
 export function useIsValidGrid() {
   const grid = useGrid();
   return isValidGrid(grid);
@@ -33,15 +41,6 @@ export function useGetCellColor() {
   );
 
   return getCellColor;
-}
-
-export function useOutputConsole() {
-  return useAppStore(
-    useShallow((state) => ({
-      isConsoleOpen: state.isConsoleOpen,
-      setIsConsoleOpen: state.setIsConsoleOpen,
-    }))
-  );
 }
 
 export function useExecutionControls() {

@@ -21,7 +21,6 @@ type AppState = {
   grid: HexGrid;
   height: number;
   history: InterpreterState[];
-  isConsoleOpen: boolean;
   mode: "drawing" | "execution";
   width: number;
 };
@@ -31,7 +30,6 @@ type AppActions = {
   setCellColor: (rowIdx: number, colIdx: number, color: HexCode) => void;
   setCurrentColor: (color: HexCode) => void;
   setHeight: (height: number) => void;
-  setIsConsoleOpen: (isOpen: boolean) => void;
   setMode: (mode: "drawing" | "execution") => void;
   setWidth: (width: number) => void;
   stepBackward: () => void;
@@ -44,8 +42,6 @@ type AppSelector<T> = (state: AppStore) => T;
 export const store = createStore<AppStore>((set, get) => ({
   // Base state
   grid: makeGrid(),
-  isConsoleOpen: false,
-  setIsConsoleOpen: (isOpen: boolean) => set({ isConsoleOpen: isOpen }),
   mode: "drawing",
   setMode: (newMode: "drawing" | "execution") => set({ mode: newMode }),
 

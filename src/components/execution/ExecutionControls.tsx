@@ -1,17 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
+import css from "components/execution/ExecutionControls.module.css";
+import { Button } from "components/base/Button";
 import {
   useExecutionControls,
   useExecutionHistory,
   useIsValidGrid,
-  useOutputConsole,
 } from "state/selectors";
 
 export function ExecutionControls() {
   const history = useExecutionHistory();
   const isValidGrid = useIsValidGrid();
   const { reset, stepBackward, stepForward } = useExecutionControls();
-  const { isConsoleOpen, setIsConsoleOpen } = useOutputConsole();
 
   const [backDisabled, setBackDisabled] = useState(!isValidGrid);
   const [forwardDisabled, setForwardDisabled] = useState(!isValidGrid);
@@ -25,24 +25,19 @@ export function ExecutionControls() {
     setForwardDisabled(allDisabled || forwardDisabled);
   }, [history, isValidGrid]);
 
-  const handleForward = useCallback(() => {
-    if (!isConsoleOpen) {
-      setIsConsoleOpen(true);
-    }
-    stepForward();
-  }, [isConsoleOpen, setIsConsoleOpen, stepForward]);
-
   return (
-    <div>
-      <button disabled={backDisabled} onClick={stepBackward}>
-        back
-      </button>
-      <button disabled={forwardDisabled} onClick={handleForward}>
-        forward
-      </button>
-      <button disabled={!history.length || !isValidGrid} onClick={reset}>
-        reset
-      </button>
+    <div className={css.controls}>
+      <Button disabled={backDisabled} onClick={stepBackward} label="back" />
+      <Button
+        disabled={forwardDisabled}
+        onClick={stepForward}
+        label="forward"
+      />
+      <Button
+        disabled={!history.length || !isValidGrid}
+        onClick={reset}
+        label="reset"
+      />
     </div>
   );
 }

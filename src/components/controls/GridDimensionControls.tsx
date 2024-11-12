@@ -2,6 +2,7 @@ import type { ChangeEvent } from "react";
 
 import css from "components/controls/GridDimensionControls.module.css";
 import { useGridDimensions } from "state/selectors";
+import { NumInput } from "components/base/Input";
 
 export function GridControls() {
   const { height, setHeight, setWidth, width } = useGridDimensions();
@@ -18,28 +19,18 @@ export function GridControls() {
 
   return (
     <div className={css.gridControls}>
-      <span className={css.input}>
-        <label htmlFor="grid-width">Width</label>
-        <input
-          id="grid-width"
-          type="number"
-          min={2}
-          max={30}
-          onChange={handleWidthChange}
-          value={width}
-        />
-      </span>
-      <span className={css.input}>
-        <label htmlFor="grid-height">Height</label>
-        <input
-          id="grid-height"
-          type="number"
-          min={2}
-          max={30}
-          onChange={handleHeightChange}
-          value={height}
-        />
-      </span>
+      <NumInput
+        id="grid-width"
+        label="width"
+        onChange={handleWidthChange}
+        value={width}
+      />
+      <NumInput
+        id="grid-height"
+        label="height"
+        onChange={handleHeightChange}
+        value={height}
+      />
     </div>
   );
 }
