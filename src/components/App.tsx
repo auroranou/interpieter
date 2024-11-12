@@ -5,7 +5,6 @@ import { ModeToggle } from "components/controls/ModeToggle";
 import { ExecutionControls } from "components/execution/ExecutionControls";
 import { OutputConsole } from "components/execution/OutputConsole";
 import { GridTable } from "components/grid/GridTable";
-import { Footer } from "components/layout/Footer";
 import { useMode } from "state/selectors";
 
 function App() {
@@ -35,7 +34,16 @@ function App() {
           {mode === "execution" && <OutputConsole />}
         </aside>
       </section>
-      <Footer />
+      <footer className={css.footer}>
+        <span>
+          made with ❤️ at the{" "}
+          <a href="https://www.recurse.com/">recurse center</a>
+        </span>
+        <span className={css.separator}>|</span>
+        <span>
+          view on <a href="https://github.com/auroranou/interpieter">github</a>
+        </span>
+      </footer>
     </main>
   );
 }

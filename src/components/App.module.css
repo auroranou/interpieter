@@ -35,3 +35,17 @@
   grid-area: sidebar;
   padding: 2em;
 }
+
+.sidebar h2 {
+  margin-bottom: 1rem;
+}
+
+.footer {
+  font-size: 12px;
+  padding: 1em 2em;
+  text-align: center;
+}
+
+.separator {
+  margin: 0 6px;
+}
